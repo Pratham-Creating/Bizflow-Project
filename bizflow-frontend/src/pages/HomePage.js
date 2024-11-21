@@ -32,9 +32,11 @@ const Homepage = () => {
             Manage your operations and finances effortlessly with BizFlow, the
             ultimate business platform for local entrepreneurs.
           </p>
-          <a href="#features" className="cta-button">
-            Explore Features
-          </a>
+          <Link to="./dashboard">
+          <div className="cta-button">
+            Dashboard
+          </div>
+          </Link>
         </div>
       </div>
 
