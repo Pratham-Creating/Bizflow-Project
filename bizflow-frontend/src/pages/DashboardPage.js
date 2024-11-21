@@ -34,8 +34,8 @@ const DashboardPage = () => {
           <div className="user-profile">
             <img src="https://via.placeholder.com/80" alt="User Avatar" />
             <div className="profile-info">
-              <h3>John Doe</h3>
-              <p>Business Owner</p>
+              <h3>User Name</h3>
+              <p>Business Name</p>
             </div>
           </div>
         </header>
@@ -53,9 +53,9 @@ const DashboardPage = () => {
             <Link to="/transactions" className="btn">Go to Transactions</Link>
           </div>
           <div className="action-card">
-            <h3>Settings</h3>
-            <p>Customize your BizFlow experience.</p>
-            <Link to="/settings" className="btn">Go to Settings</Link>
+            <h3>Financial Data Visualization</h3>
+            <p>Manage your business more effectively.</p>
+            <Link to="/settings" className="btn">Go to Data Visualization</Link>
           </div>
         </section>
       </div>
