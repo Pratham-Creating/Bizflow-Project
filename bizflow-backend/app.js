@@ -1,33 +1,39 @@
-// Import required modules
-const express = require('express');
-const sequelize = require('./config/d'); // Sequelize configuration
-const userRoutes = require('./routes/userRoutes'); // User routes
-const User = require('./models/User');
-const Sku = require('./models/Sku');
-const Expense = require('./models/Expense');
-const Inventory = require('./models/Inventory');
-const Transaction = require('./models/Transaction');
-
-// Initialize the express app
+// app.js
+const express = require("express");
 const app = express();
+const db = require("./database/db"); // Your DB connection
+const cors = require("cors");
 
-// Middleware to parse JSON request bodies
-app.use(express.json());
+app.use(cors()); // Allow cross-origin requests
+app.use(express.json()); // To parse JSON requests
 
-// Use user routes under the '/api' prefix
-app.use('/api', userRoutes);
-
-// Test the database connection and sync models
-sequelize.sync()
-    .then(() => {
-        console.log('Database synced successfully!');
-    })
-    .catch(err => {
-        console.error('Error syncing database:', err);
-    });
-
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Transaction routes
+// GET request to fetch all transactions
+app.get("/api/auth/transactions", (req, res) => {
+  db.query("SELECT * FROM transactions", (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: "Error fetching transactions" });
+    }
+    res.json(results);
+  });
 });
+
+// POST request to add a new transaction
+app.post("/api/auth/transactions", (req, res) => {
+  const { date, amount } = req.body;
+
+  if (!date || !amount) {
+    return res.status(400).json({ error: "Date and amount are required" });
+  }
+
+  const query = "INSERT INTO transactions (date, amount) VALUES (?, ?)";
+  db.query(query, [date, amount], (err, result) => {
+    if (err) {
+      console.error("Error adding transaction:", err); // Logging any error
+      return res.status(500).json({ error: "Error adding transaction" });
+    }
+    res.status(201).json({ message: "Transaction added successfully", id: result.insertId });
+  });
+});
+
+module.exports = app;

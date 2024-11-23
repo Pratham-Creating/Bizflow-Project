@@ -1,0 +1,59 @@
+.transaction-page {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    color: #333;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #03a9f4;
+  }
+  
+  .form-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  input, button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #03a9f4;
+    color: white;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+  }
+  
+  button:hover {
+    background-color: #0288d1;
+  }
+  
+  .transaction-list {
+    margin: 20px auto;
+    max-width: 600px;
+  }
+  
+  .transaction-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .transaction-list li {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .transaction-chart {
+    margin: 30px auto;
+    max-width: 800px;
+  }
+  

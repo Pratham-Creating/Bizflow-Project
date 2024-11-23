@@ -22,7 +22,7 @@ const DashboardPage = () => {
           </ul>
         </nav>
       </div>
-
+      
       {/* Main Content */}
       <div className="main-content">
         <header className="dashboard-header">
