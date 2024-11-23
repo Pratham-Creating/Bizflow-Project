@@ -1,141 +1,114 @@
-/* Overall container styling */
+/* General styling for the inventory container */
 .inventory-container {
     max-width: 900px;
-    margin: 50px auto;
-    padding: 30px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    border: 1px solid #e0e0e0;
-}
-
-/* Page headings */
-.inventory-container h1 {
-    font-size: 28px;
-    color: #2c3e50;
+    margin: 30px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header styling */
+  .inventory-container h1 {
     text-align: center;
+    color: #333;
     margin-bottom: 20px;
-}
-
-.inventory-container h2 {
-    font-size: 22px;
-    color: #34495e;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-/* Inventory form styling */
-.inventory-form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
+    font-size: 2rem;
+  }
+  
+  /* Form styling */
+  .inventory-form {
     margin-bottom: 30px;
-}
-
-/* Input fields styling */
-.form-group {
-    flex: 1 1 calc(50% - 20px);
+  }
+  
+  .form-group {
     display: flex;
     flex-direction: column;
-}
-
-.form-group label {
-    font-weight: 600;
-    font-size: 14px;
-    color: #2c3e50;
-    margin-bottom: 8px;
-}
-
-.form-group input {
-    padding: 12px;
-    border: 1px solid #dcdcdc;
-    border-radius: 6px;
-    font-size: 16px;
-    color: #2c3e50;
-    transition: all 0.3s ease;
-}
-
-.form-group input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
-    outline: none;
-}
-
-/* Add button styling */
-.add-button {
-    flex: 1 1 100%;
-    padding: 14px 20px;
-    background: #3498db;
-    color: white;
-    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  
+  label {
     font-weight: bold;
-    text-transform: uppercase;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  select, input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  select:focus, input:focus {
+    border-color: #6c63ff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+  }
+  
+  .update-button {
+    padding: 10px 20px;
+    background: #6c63ff;
+    color: #fff;
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.add-button:hover {
-    background: #2980b9;
-    box-shadow: 0 4px 12px rgba(41, 128, 185, 0.4);
-}
-
-/* SKU List Table Styling */
-.sku-table {
+    transition: background 0.3s;
+  }
+  
+  .update-button:hover {
+    background: #5750d8;
+  }
+  
+  /* Table styling */
+  .sku-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    background: #f9f9f9;
+    background: #fff;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.sku-table th,
-.sku-table td {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sku-table thead {
+    background: #6c63ff;
+    color: #fff;
+  }
+  
+  .sku-table th, .sku-table td {
     padding: 12px 15px;
     text-align: left;
-    font-size: 14px;
-}
-
-.sku-table th {
-    background-color: #34495e;
-    color: white;
-    font-weight: 700;
-}
-
-.sku-table tbody tr {
-    border-bottom: 1px solid #dcdcdc;
-}
-
-.sku-table tbody tr:hover {
-    background: rgba(52, 152, 219, 0.1);
-}
-
-.sku-table tbody tr:nth-child(odd) {
-    background: #f5f5f5;
-}
-
-/* For the last row border fix */
-.sku-table tbody tr:last-child {
-    border-bottom: none;
-}
-
-/* Responsive design for small screens */
-@media screen and (max-width: 768px) {
-    .inventory-container {
-        padding: 20px;
-    }
-
-    .form-group {
-        flex: 1 1 100%;
-    }
-
-    .sku-table th,
-    .sku-table td {
-        font-size: 13px;
-    }
-}
+  }
+  
+  .sku-table tbody tr:nth-child(odd) {
+    background: #f4f4f8;
+  }
+  
+  .sku-table tbody tr:nth-child(even) {
+    background: #e9e9f3;
+  }
+  
+  .sku-table tbody tr:hover {
+    background: #d3d2f7;
+    cursor: pointer;
+  }
+  
+  .sku-table th {
+    font-size: 1.1rem;
+  }
+  
+  .sku-table td {
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  /* No items message */
+  .inventory-container p {
+    text-align: center;
+    color: #888;
+    font-size: 1.1rem;
+  }
+  

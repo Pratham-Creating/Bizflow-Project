@@ -36,4 +36,44 @@ app.post("/api/auth/transactions", (req, res) => {
   });
 });
 
+
+//GET request to fetch all sku itmes
+app.get('/api/sku-items', (req, res) => {
+  const query = 'SELECT * FROM sku_items';
+  db.query(query, (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+
+//POST request to add sku itmes
+app.post('/api/sku-items', (req, res) => {
+  const { name, quantity } = req.body;
+  const query = 'INSERT INTO sku_items (name, quantity) VALUES (?, ?)';
+  db.query(query, [name, quantity], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ id: results.insertId, name, quantity });
+  });
+});
+
+
+app.put('/api/sku-items/:id', (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+  const query = 'UPDATE sku_items SET quantity = ? WHERE id = ?';
+  db.query(query, [quantity, id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json({ id, quantity });
+  });
+});
+
+
+
 module.exports = app;

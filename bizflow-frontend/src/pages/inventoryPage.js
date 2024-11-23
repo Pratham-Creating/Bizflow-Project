@@ -1,63 +1,93 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "../styles/inventory.css";
 
 function InventoryPage() {
   const [skuItems, setSkuItems] = useState([]);
-  const [itemName, setItemName] = useState("");
-  const [itemQuantity, setItemQuantity] = useState("");
+  const [selectedItem, setSelectedItem] = useState("");
+  const [updatedQuantity, setUpdatedQuantity] = useState("");
 
-  // Fetch data from localStorage when the component mounts
+  // Fetch SKU items from the backend
   useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem("skuItems")) || [];
-    setSkuItems(storedItems);
-  }, []); // Empty dependency array ensures this runs only once on component mount
+    axios.get("http://localhost:5000/api/sku-items")
+      .then((response) => setSkuItems(response.data))
+      .catch((error) => console.error("Error fetching SKU items:", error));
+  }, []); // Fetch once on component mount
 
-  // Save SKU items to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("skuItems", JSON.stringify(skuItems));
-  }, [skuItems]); // Dependency on skuItems ensures this updates correctly
+  // Handle selecting an item from the list
+  const handleItemSelect = (e) => {
+    const itemName = e.target.value;
+    setSelectedItem(itemName);
 
-  const addSkuItem = (e) => {
+    const item = skuItems.find((item) => item.name === itemName);
+    if (item) {
+      setUpdatedQuantity(item.quantity);
+    }
+  };
+
+  // Handle updating the quantity of the selected item
+  const handleUpdateQuantity = (e) => {
     e.preventDefault();
-    if (!itemName || !itemQuantity) {
-      alert("Both fields are required!");
+    if (!selectedItem || !updatedQuantity) {
+      alert("Please select an item and specify a quantity.");
       return;
     }
 
-    const newItem = { name: itemName, quantity: itemQuantity };
-    setSkuItems([...skuItems, newItem]);
-    setItemName("");
-    setItemQuantity("");
+    const itemToUpdate = skuItems.find((item) => item.name === selectedItem);
+    if (itemToUpdate) {
+      // Send update request to backend
+      axios.put(`http://localhost:5000/api/sku-items/${itemToUpdate.id}`, { quantity: updatedQuantity })
+        .then((response) => {
+          // Update the item in the local state after successful update
+          const updatedSkuItems = skuItems.map((item) =>
+            item.id === itemToUpdate.id ? { ...item, quantity: updatedQuantity } : item
+          );
+          setSkuItems(updatedSkuItems);
+          setUpdatedQuantity(""); // Reset quantity input
+        })
+        .catch((error) => console.error("Error updating SKU item:", error));
+    }
   };
 
   return (
     <div className="inventory-container">
       <h1>Inventory Management</h1>
-      <form className="inventory-form" onSubmit={addSkuItem}>
+
+      <form className="inventory-form" onSubmit={handleUpdateQuantity}>
         <div className="form-group">
-          <label htmlFor="itemName">Item Name:</label>
-          <input
-            type="text"
-            id="itemName"
-            value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-            placeholder="Enter item name"
-          />
+          <label htmlFor="itemSelect">Select Item:</label>
+          <select
+            id="itemSelect"
+            value={selectedItem}
+            onChange={handleItemSelect}
+          >
+            <option value="">--Select Item--</option>
+            {skuItems.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name} (Qty: {item.quantity})
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="form-group">
-          <label htmlFor="itemQuantity">Item Quantity:</label>
-          <input
-            type="number"
-            id="itemQuantity"
-            value={itemQuantity}
-            onChange={(e) => setItemQuantity(e.target.value)}
-            placeholder="Enter item quantity"
-          />
-        </div>
-        <button type="submit" className="add-button">
-          Add Item
+
+        {selectedItem && (
+          <div className="form-group">
+            <label htmlFor="updatedQuantity">Current Quantity: {updatedQuantity}</label>
+            <input
+              type="number"
+              id="updatedQuantity"
+              value={updatedQuantity}
+              onChange={(e) => setUpdatedQuantity(e.target.value)}
+              placeholder="Enter updated quantity"
+            />
+          </div>
+        )}
+
+        <button type="submit" className="update-button">
+          Update Quantity
         </button>
       </form>
+
       <h2>SKU List</h2>
       {skuItems.length > 0 ? (
         <table className="sku-table">
@@ -68,8 +98,8 @@ function InventoryPage() {
             </tr>
           </thead>
           <tbody>
-            {skuItems.map((item, index) => (
-              <tr key={index}>
+            {skuItems.map((item) => (
+              <tr key={item.id}>
                 <td>{item.name}</td>
                 <td>{item.quantity}</td>
               </tr>
