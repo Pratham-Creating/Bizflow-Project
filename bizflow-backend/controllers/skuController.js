@@ -1,4 +1,4 @@
-const db = require("../database/db"); // Assuming you're using MySQL or another database
+const db = require("../database/db");
 
 // Controller to fetch all SKU items
 exports.getSkuItems = (req, res) => {
@@ -9,14 +9,13 @@ exports.getSkuItems = (req, res) => {
     }
     res.json(results);
   });
-  
 };
 
 // Controller to add a new SKU item
 exports.addSkuItem = (req, res) => {
-  const { name, quantity } = req.body;
-  const query = "INSERT INTO sku_items (name, quantity) VALUES (?, ?)";
-  db.query(query, [name, quantity], (err, results) => {
+  const { name, quantity, price } = req.body;
+  const query = "INSERT INTO sku_items (name, quantity, price) VALUES (?, ?, ?)";
+  db.query(query, [name, quantity, price], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -24,22 +23,23 @@ exports.addSkuItem = (req, res) => {
       id: results.insertId,
       name,
       quantity,
+      price,
     });
   });
 };
 
-// Controller to update SKU item quantity
-exports.updateSkuItemQuantity = (req, res) => {
+// Controller to update SKU item quantity and price
+exports.updateSkuItem = (req, res) => {
   const { id } = req.params;
-  const { quantity } = req.body;
-  const query = "UPDATE sku_items SET quantity = ? WHERE id = ?";
-  db.query(query, [quantity, id], (err, results) => {
+  const { quantity, price } = req.body;
+  const query = "UPDATE sku_items SET quantity = ?, price = ? WHERE id = ?";
+  db.query(query, [quantity, price, id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
     if (results.affectedRows === 0) {
       return res.status(404).json({ message: "SKU item not found" });
     }
-    res.json({ id, quantity });
+    res.json({ id, quantity, price });
   });
 };

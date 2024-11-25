@@ -49,31 +49,63 @@ app.get('/api/sku-items', (req, res) => {
 });
 
 
+
 //POST request to add sku itmes
 app.post('/api/sku-items', (req, res) => {
-  const { name, quantity } = req.body;
-  const query = 'INSERT INTO sku_items (name, quantity) VALUES (?, ?)';
-  db.query(query, [name, quantity], (err, results) => {
+  const { name, quantity, price } = req.body;
+  const query = 'INSERT INTO sku_items (name, quantity, price) VALUES (?, ?, ?)';
+  db.query(query, [name, quantity, price], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    res.json({ id: results.insertId, name, quantity });
+    res.json({ id: results.insertId, name, quantity, price });
   });
 });
+
 
 
 app.put('/api/sku-items/:id', (req, res) => {
   const { id } = req.params;
-  const { quantity } = req.body;
-  const query = 'UPDATE sku_items SET quantity = ? WHERE id = ?';
-  db.query(query, [quantity, id], (err, results) => {
+  const { quantity, price } = req.body;
+
+  const query = 'UPDATE sku_items SET quantity = ?, price = ? WHERE id = ?';
+  db.query(query, [quantity, price, id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    res.json({ id, quantity });
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: "SKU item not found" });
+    }
+    res.json({ id, quantity, price });
   });
 });
 
+// POST request to save transaction
+app.post('/api/transactions', (req, res) => {
+  const { item, quantity, date, amount } = req.body;
+  
+  const query = 'INSERT INTO transactions (item, quantity, date, amount) VALUES (?, ?, ?, ?)';
+  db.query(query, [item, quantity, date, amount], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: "Transaction recorded successfully" });
+  });
+});
+
+// Update the quantity of an SKU item
+app.put('/api/sku-items/:id', (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  // Update the SKU item in the database
+  db.query('UPDATE sku_items SET quantity = ? WHERE id = ?', [quantity, id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to update SKU item' });
+    }
+    res.status(200).json({ message: 'SKU item updated successfully' });
+  });
+});
 
 
 module.exports = app;

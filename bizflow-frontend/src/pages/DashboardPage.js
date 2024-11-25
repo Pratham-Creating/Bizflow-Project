@@ -17,7 +17,7 @@ const DashboardPage = () => {
             <li><Link to="/dashboard">Dashboard</Link></li>
             <li><Link to="/inventory">Inventory</Link></li>
             <li><Link to="/transactions">Transactions</Link></li>
-            <li><Link to="/settings">Settings</Link></li>
+            <li><Link to="/data-visual">Data Visualization</Link></li>
             <li><Link to="/logout">Logout</Link></li>
           </ul>
         </nav>
@@ -55,7 +55,7 @@ const DashboardPage = () => {
           <div className="action-card">
             <h3>Financial Data Visualization</h3>
             <p>Manage your business more effectively.</p>
-            <Link to="/settings" className="btn">Go to Data Visualization</Link>
+            <Link to="/data-visual" className="btn">Go to Data Visualization</Link>
           </div>
         </section>
       </div>

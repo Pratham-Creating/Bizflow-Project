@@ -3,125 +3,143 @@ import axios from "axios";
 import "../styles/transaction.css";
 
 function TransactionPage() {
+  const [skuItems, setSkuItems] = useState([]);
   const [transactions, setTransactions] = useState([]);
-  const [formData, setFormData] = useState({ date: "", amount: "" });
+  const [selectedItem, setSelectedItem] = useState("");
+  const [quantitySold, setQuantitySold] = useState("");
+  const [amountCredited, setAmountCredited] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  // Fetch transactions from backend
   useEffect(() => {
-    axios.get("http://localhost:5000/api/auth/transactions")
-      .then((response) => setTransactions(response.data))
-      .catch((error) => console.error("Error fetching transactions:", error));
+    // Fetch SKU items and transactions 
+    const fetchData = async () => {
+      try {
+        const [skuResponse, transactionsResponse] = await Promise.all([
+          axios.get("http://localhost:5000/api/sku-items"),
+          axios.get("http://localhost:5000/api/auth/transactions"),
+        ]);
+        setSkuItems(skuResponse.data);
+        setTransactions(transactionsResponse.data);
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to load data.");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  // Handle input change
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleItemSelect = (e) => {
+    const itemName = e.target.value;
+    setSelectedItem(itemName);
+    const item = skuItems.find((item) => item.name === itemName);
+    if (item) setAmountCredited(item.price);
   };
 
-  // Handle adding a debit transaction
-  const addDebitTransaction = () => {
-    const debitTransaction = { ...formData, amount: -Math.abs(formData.amount) };
-    axios.post("http://localhost:5000/api/auth/transactions", debitTransaction)
-      .then((response) => {
-        setTransactions((prevTransactions) => [response.data, ...prevTransactions]);
-        setFormData({ date: "", amount: "" });
-      })
-      .catch((error) => console.error("Error adding debit transaction:", error));
+  const handleQuantityChange = (e) => {
+    setQuantitySold(e.target.value);
+    const item = skuItems.find((item) => item.name === selectedItem);
+    if (item) setAmountCredited(item.price * e.target.value);
   };
 
-  // Handle adding a credit transaction
-  const addCreditTransaction = () => {
-    const creditTransaction = { ...formData, amount: Math.abs(formData.amount) };
-    axios.post("http://localhost:5000/api/auth/transactions", creditTransaction)
-      .then((response) => {
-        setTransactions((prevTransactions) => [response.data, ...prevTransactions]);
-        setFormData({ date: "", amount: "" });
-      })
-      .catch((error) => console.error("Error adding credit transaction:", error));
+  const handleTransactionSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedItem || !quantitySold) {
+      alert("Please select an item and enter quantity.");
+      return;
+    }
+
+    const newTransaction = {
+      item: selectedItem,
+      quantity: Number(quantitySold), // Ensure quantity is stored as a number
+      date: new Date().toISOString().split("T")[0],
+      amount: amountCredited,
+    };
+
+    try {
+      // Send the new transaction to the backend
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/transactions",
+        newTransaction
+      );
+
+      // Add the new transaction directly to the state to reflect immediately
+      setTransactions((prevTransactions) => [response.data, ...prevTransactions]);
+
+      alert("Transaction recorded successfully!");
+      setSelectedItem("");
+      setQuantitySold("");
+      setAmountCredited(0);
+    } catch (err) {
+      console.error("Error recording transaction:", err);
+    }
   };
 
-  // Format the date to show only YYYY-MM-DD
-  const formatDate = (date) => {
-    const newDate = new Date(date);
-    return newDate.toLocaleDateString("en-GB"); // Returns date in format dd/mm/yyyy
-  };
-
-  // Group transactions by year and month with full month name (e.g. November 2024)
-  const groupByYearMonth = () => {
-    return transactions.reduce((acc, transaction) => {
-      const transactionDate = new Date(transaction.date);
-      const yearMonth = transactionDate.toLocaleString('default', {
-        month: 'long',
-        year: 'numeric'
-      });
-
-      if (!acc[yearMonth]) {
-        acc[yearMonth] = [];
-      }
-
-      acc[yearMonth].push(transaction);
-      return acc;
-    }, {});
-  };
-
-  // Get total amount for each group (including positive and negative amounts)
-  const getTotalAmount = (transactions) => {
-    return transactions.reduce((sum, t) => sum + parseFloat(t.amount), 0).toFixed(2);
-  };
-
-  const groupedTransactions = groupByYearMonth();
+  if (loading) return <div className="loader">Loading...</div>;
+  if (error) return <div className="error-message">{error}</div>;
 
   return (
-    <div className="transaction-page">
-      <h1>Transaction Management</h1>
-      
-      {/* Form to add new transaction */}
-      <div className="form-container">
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="amount"
-          placeholder="Amount"
-          value={formData.amount}
-          onChange={handleChange}
-        />
-        <div className="button-container">
-          <button onClick={addDebitTransaction} className="debit-button">Debit</button>
-          <button onClick={addCreditTransaction} className="credit-button">Credit</button>
+    <div className="transaction-container">
+      <header className="header">
+        <h1>📊 Manage Transactions</h1>
+      </header>
+
+      <form className="transaction-form" onSubmit={handleTransactionSubmit}>
+        <div className="form-group">
+          <label htmlFor="itemSelect">Select Item Sold:</label>
+          <select id="itemSelect" value={selectedItem} onChange={handleItemSelect}>
+            <option value="">--Select Item--</option>
+            {skuItems.map((item) => (
+              <option key={item.id} value={item.name}>
+                {item.name} (₹{item.price})
+              </option>
+            ))}
+          </select>
         </div>
-      </div>
 
-      {/* Displaying transactions grouped by year and month */}
-      {Object.keys(groupedTransactions).map((yearMonth) => {
-        const transactionsInMonth = groupedTransactions[yearMonth];
-        const totalAmount = getTotalAmount(transactionsInMonth);
+        <div className="form-group">
+          <label htmlFor="quantitySold">Enter Quantity Sold:</label>
+          <input
+            type="number"
+            id="quantitySold"
+            value={quantitySold}
+            onChange={handleQuantityChange}
+            placeholder="Enter quantity"
+          />
+        </div>
 
-        return (
-          <div key={yearMonth} className="month-section">
-            <h2>{yearMonth}</h2>  {/* Displaying formatted date: "November 2024" */}
+        <div className="form-group">
+          <label>Amount Credited: <strong>₹{amountCredited}</strong></label>
+        </div>
 
-            <ul className="transaction-list">
-              {transactionsInMonth.map((t) => (
-                <li key={t.id}>
-                  <span>{formatDate(t.date)}</span>
-                  <span className={parseFloat(t.amount) < 0 ? "negative" : ""}>
-                    ₹{t.amount}
-                  </span>
-                </li>
-              ))}
-            </ul>
+        <button type="submit" className="submit-button">
+          Submit Transaction
+        </button>
+      </form>
 
-            <div className="total-amount">
-              <strong>Total: ₹{totalAmount}</strong>
-            </div>
-          </div>
-        );
-      })}
+      <h2>Transaction History</h2>
+      <table className="transactions-table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Date</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map((transaction, index) => (
+            <tr key={index}>
+              <td>{transaction.itemName || "N/A"}</td>
+              <td>{transaction.quantity || "N/A"}</td>
+              <td>{transaction.date || "N/A"}</td>
+              <td>₹{transaction.amount || 0}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

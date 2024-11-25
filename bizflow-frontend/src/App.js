@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import InventoryPage from './pages/inventoryPage';
 import TransactionPage from './pages/transactionPage';
-
+import DataVisualPage from './pages/dataVisualPage';
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/inventory" element={<InventoryPage />} />
           <Route path="/transactions" element={<TransactionPage/>} />
+          <Route path="/data-visual" element={<DataVisualPage />} />
         </Routes>
       </div>
     </Router>

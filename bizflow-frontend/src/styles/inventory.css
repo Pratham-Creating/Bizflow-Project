@@ -1,114 +1,131 @@
-/* General styling for the inventory container */
+/* General Page Styling */
 .inventory-container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Header styling */
-  .inventory-container h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 2rem;
-  }
-  
-  /* Form styling */
-  .inventory-form {
-    margin-bottom: 30px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-  }
-  
-  label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  select, input {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 1rem;
-  }
-  
-  select:focus, input:focus {
-    border-color: #6c63ff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
-  }
-  
-  .update-button {
-    padding: 10px 20px;
-    background: #6c63ff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .update-button:hover {
-    background: #5750d8;
-  }
-  
-  /* Table styling */
-  .sku-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .sku-table thead {
-    background: #6c63ff;
-    color: #fff;
-  }
-  
-  .sku-table th, .sku-table td {
-    padding: 12px 15px;
-    text-align: left;
-  }
-  
-  .sku-table tbody tr:nth-child(odd) {
-    background: #f4f4f8;
-  }
-  
-  .sku-table tbody tr:nth-child(even) {
-    background: #e9e9f3;
-  }
-  
-  .sku-table tbody tr:hover {
-    background: #d3d2f7;
-    cursor: pointer;
-  }
-  
-  .sku-table th {
-    font-size: 1.1rem;
-  }
-  
-  .sku-table td {
-    color: #333;
-    font-size: 1rem;
-  }
-  
-  /* No items message */
-  .inventory-container p {
-    text-align: center;
-    color: #888;
-    font-size: 1.1rem;
-  }
-  
+  font-family: 'Arial', sans-serif;
+  background: #f4f7fc;
+  color: #333;
+  margin: 0;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 40px auto;
+  overflow: hidden;
+}
+
+/* Heading */
+h1 {
+  font-size: 2.5rem;
+  color: #2d3e50;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: #4c5a69;
+  margin-top: 40px;
+  text-align: center;
+}
+
+/* Form Styling */
+.inventory-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4c5a69;
+  display: block;
+  margin-bottom: 8px;
+}
+
+input[type="number"], select {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="number"]:focus, select:focus {
+  border-color: #1c74b8;
+  box-shadow: 0 0 8px rgba(28, 116, 184, 0.5);
+}
+
+input[type="number"]::placeholder, select::placeholder {
+  color: #999;
+}
+
+/* Button Styling */
+.update-button {
+  background-color: #1c74b8;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.update-button:hover {
+  background-color: #155d8e;
+  transform: translateY(-2px);
+}
+
+/* Table Styling */
+.sku-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sku-table th, .sku-table td {
+  padding: 12px 20px;
+  text-align: left;
+}
+
+.sku-table th {
+  background-color: #1c74b8;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.sku-table td {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.sku-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.sku-table tr:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.sku-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* No items message */
+p {
+  text-align: center;
+  color: #999;
+  font-size: 1rem;
+}

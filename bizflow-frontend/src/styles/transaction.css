@@ -1,115 +1,106 @@
-/* General styles for the page */
-.transaction-page {
-  font-family: Arial, sans-serif;
-  background-color: #f7f7f7;
-  padding: 20px;
+/* General Styles */
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
+  color: #333;
 }
 
-h1 {
+.transaction-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header h1 {
   text-align: center;
-  color: #333;
+  color: #4CAF50;
+  font-weight: 700;
 }
 
-/* Form container for adding transactions */
-.form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Form Styles */
+.transaction-form {
   margin-bottom: 20px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.form-container input[type="date"],
-.form-container input[type="number"] {
-  padding: 10px;
-  margin: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 100%;
-  max-width: 250px;
-}
-
-.form-container input[type="number"] {
-  font-size: 16px;
-}
-
-.button-container {
-  display: flex;
-  gap: 15px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-.debit-button {
-  background-color: #e74c3c;
-  color: white;
-}
-
-.credit-button {
-  background-color: #2ecc71;
-  color: white;
-}
-
-/* Month and year section styles */
-.month-section {
-  background-color: #fff;
-  padding: 15px;
-  margin-top: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.month-section h2 {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
+.form-group {
   margin-bottom: 15px;
 }
 
-.transaction-list {
-  list-style-type: none;
-  padding: 0;
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
-.transaction-list li {
-  display: flex;
-  justify-content: space-between;
+input, select {
+  width: 100%;
   padding: 10px;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
-.transaction-list li span {
+input:focus, select:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.submit-button {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-button:hover {
+  background: #45a049;
+}
+
+/* Table Styles */
+.transactions-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.transactions-table th,
+.transactions-table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.transactions-table th {
+  background: #4CAF50;
+  color: white;
   font-weight: bold;
 }
 
-.total-amount {
-  margin-top: 15px;
-  font-size: 18px;
+.transactions-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.transactions-table tr:hover {
+  background-color: #ddd;
+}
+
+/* Loader and Error */
+.loader {
+  text-align: center;
+  font-size: 1.2em;
+  color: #4CAF50;
+}
+
+.error-message {
+  text-align: center;
+  color: red;
   font-weight: bold;
-  color: #333;
-}
-
-/* Additional styling for the total amounts */
-.total-amount strong {
-  color: #2ecc71;
-}
-
-/* Styling for the negative amounts (debits) */
-.transaction-list li span.negative {
-  color: #e74c3c; /* Red for debits */
-}
-
-/* Styling for the positive amounts (credits) */
-.transaction-list li span:not(.negative) {
-  color: #2ecc71; /* Green for credits */
 }
