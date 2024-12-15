@@ -6,6 +6,7 @@ const Homepage = () => {
   return (
     <div>
       <div className="hero-section">
+        <div className="overlay"></div> {/* Dark overlay */}
         <nav className="navbar">
           <div className="logo">
             <img src="" alt="" />
@@ -23,7 +24,8 @@ const Homepage = () => {
             </li>
           </ul>
           <Link to="./login">
-          <button className="btn-signup">Log In</button></Link>
+            <button className="btn-signup">Log In</button>
+          </Link>
         </nav>
 
         <div className="hero-content">
@@ -33,9 +35,9 @@ const Homepage = () => {
             ultimate business platform for local entrepreneurs.
           </p>
           <Link to="./dashboard">
-          <div className="cta-button">
-            Dashboard
-          </div>
+            <div className="cta-button">
+              Dashboard
+            </div>
           </Link>
         </div>
       </div>

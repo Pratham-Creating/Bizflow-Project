@@ -37,7 +37,7 @@ CREATE TABLE `sku_items` (
 
 LOCK TABLES `sku_items` WRITE;
 /*!40000 ALTER TABLE `sku_items` DISABLE KEYS */;
-INSERT INTO `sku_items` VALUES (1,'Notebook',400,100.00),(2,'Pen',60,50.00),(3,'Eraser',150,5.00),(4,'Ruler',80,15.75),(5,'Marker',60,25.00),(6,'Stapler',30,120.00),(7,'Glue Stick',200,20.00),(8,'Scissors',25,75.00),(9,'Highlighter',40,35.00),(10,'Calculator',10,500.00);
+INSERT INTO `sku_items` VALUES (1,'Laptop',50,76000.00),(2,'Smartphone',25,15000.00),(3,'Tablet',50,20000.00),(4,'Headphones',50,2000.00),(5,'Keyboard',30,1200.00),(6,'Mouse',56,900.00),(7,'Monitor',20,10000.00),(8,'Printer',10,15000.00),(9,'Router',25,3000.00),(10,'External Hard Drive',15,5000.00);
 /*!40000 ALTER TABLE `sku_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,8 +52,10 @@ CREATE TABLE `transactions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `amount` decimal(10,2) NOT NULL,
+  `item_name` varchar(255) NOT NULL,
+  `quantity` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +64,7 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,'2024-11-23',5000.00),(2,'2024-11-24',2000.00),(3,'2024-10-15',500.00),(4,'2024-11-26',-4500.00),(5,'2024-11-28',4500.00),(6,'2024-11-29',-5600.00),(7,'2024-11-23',2000.00),(8,'2024-11-21',250.00),(9,'2024-11-25',525.00),(10,'2024-11-25',205.00),(11,'2024-11-23',400.00),(12,'2024-11-23',630.00),(13,'2024-11-23',1600.00),(14,'2024-11-23',250.00),(15,'2024-11-23',250.00),(16,'2024-11-23',250.00),(17,'2024-11-23',1000.00),(18,'2024-11-24',280.00);
+INSERT INTO `transactions` VALUES (13,'2024-12-13',60000.00,'Smartphone',4),(14,'2024-12-13',675000.00,'Printer',45),(15,'2024-12-13',304000.00,'Laptop',4),(16,'2024-12-13',100000.00,'Monitor',10),(17,'2024-12-13',60000.00,'External Hard Drive',12),(18,'2024-12-13',30000.00,'Printer',2),(19,'2024-11-10',100000.00,'Smartphone',10),(20,'2024-08-12',150000.00,'Smartphone',15),(21,'2024-08-25',210000.00,'Laptop',7),(22,'2024-09-05',40000.00,'Headphones',20),(23,'2024-09-19',50000.00,'Smartwatch',5),(24,'2024-10-03',100000.00,'Smartphone',10),(25,'2024-10-18',60000.00,'Tablet',12),(26,'2024-11-02',240000.00,'Laptop',8),(27,'2024-11-15',50000.00,'Headphones',25),(28,'2024-08-03',200000.00,'Smartphone',20),(29,'2024-08-15',75000.00,'Smartwatch',10),(30,'2024-09-10',125000.00,'Laptop',5),(31,'2024-09-25',30000.00,'Headphones',15),(32,'2024-10-01',50000.00,'Tablet',10),(33,'2024-10-20',120000.00,'Smartphone',12),(34,'2024-11-05',180000.00,'Laptop',6),(35,'2024-11-22',64000.00,'Smartwatch',8),(36,'2024-08-05',180000.00,'Smartphone',18),(37,'2024-08-18',56000.00,'Smartwatch',7),(38,'2024-09-12',90000.00,'Laptop',3),(39,'2024-09-28',40000.00,'Headphones',20),(40,'2024-10-05',40000.00,'Tablet',8),(41,'2024-10-15',250000.00,'Smartphone',25),(42,'2024-11-02',120000.00,'Laptop',4),(43,'2024-11-10',40000.00,'Smartwatch',5);
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -75,4 +77,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-24 22:26:11
+-- Dump completed on 2024-12-15 12:04:01

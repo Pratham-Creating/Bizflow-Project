@@ -1,44 +1,31 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const db = require("../database/db");
 
-// Login user
-exports.loginUser = (req, res) => {
-  const { username, password } = req.body;
+// Add a new transaction
+exports.addTransaction = (req, res) => {
+  const { item, quantity, date, amount } = req.body;
 
-  const query = "SELECT * FROM users WHERE username = ?";
-  db.query(query, [username], async (err, results) => {
-    if (err) return res.status(500).json({ message: "Server error" });
-    if (results.length === 0)
-      return res.status(400).json({ message: "Invalid credentials" });
+  if (!item || !quantity || !date || !amount) {
+    return res.status(400).json({ error: "All fields are required: item, quantity, date, amount" });
+  }
 
-    const user = results[0];
-
-    const isValidPassword = await bcrypt.compare(password, user.password);
-    if (!isValidPassword)
-      return res.status(400).json({ message: "Invalid credentials" });
-
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-    res.json({ token });
+  const query = "INSERT INTO transactions (item_name, quantity, date, amount) VALUES (?, ?, ?, ?)";
+  db.query(query, [item, quantity, date, amount], (err, result) => {
+    if (err) {
+      console.error("Error adding transaction:", err);
+      return res.status(500).json({ error: "Failed to record transaction" });
+    }
+    res.status(201).json({ id: result.insertId, item, quantity, date, amount });
   });
 };
 
-// Add a transaction
-exports.addTransaction = (req, res) => {
-  const { date, amount } = req.body;
-
-  if (!date || !amount) {
-    return res.status(400).json({ error: "Date and amount are required" });
-  }
-
-  const query = "INSERT INTO transactions (date, amount) VALUES (?, ?)";
-  db.query(query, [date, amount], (err, result) => {
+// Fetch all transactions
+exports.getTransactions = (req, res) => {
+  const query = "SELECT * FROM transactions";
+  db.query(query, (err, results) => {
     if (err) {
-      console.error("Error inserting transaction:", err);
-      return res.status(500).json({ error: "Database error" });
+      console.error("Error fetching transactions:", err);
+      return res.status(500).json({ error: "Failed to fetch transactions" });
     }
-    res.status(201).json({ id: result.insertId, date, amount });
+    res.status(200).json(results);
   });
 };

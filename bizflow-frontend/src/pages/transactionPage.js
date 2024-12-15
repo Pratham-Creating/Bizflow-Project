@@ -5,6 +5,7 @@ import "../styles/transaction.css";
 function TransactionPage() {
   const [skuItems, setSkuItems] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [groupedTransactions, setGroupedTransactions] = useState({});
   const [selectedItem, setSelectedItem] = useState("");
   const [quantitySold, setQuantitySold] = useState("");
   const [amountCredited, setAmountCredited] = useState(0);
@@ -21,6 +22,7 @@ function TransactionPage() {
         ]);
         setSkuItems(skuResponse.data);
         setTransactions(transactionsResponse.data);
+        groupTransactionsByMonth(transactionsResponse.data);
         setLoading(false);
       } catch (err) {
         setError("Failed to load data.");
@@ -30,6 +32,25 @@ function TransactionPage() {
 
     fetchData();
   }, []);
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // months are zero-based
+    const year = d.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  };
+
+  const groupTransactionsByMonth = (transactions) => {
+    const grouped = transactions.reduce((acc, transaction) => {
+      const month = new Date(transaction.date).toLocaleString("default", { month: "long" });
+      acc[month] = acc[month] || [];
+      acc[month].push(transaction);
+      return acc;
+    }, {});
+    setGroupedTransactions(grouped);
+  };
 
   const handleItemSelect = (e) => {
     const itemName = e.target.value;
@@ -54,7 +75,7 @@ function TransactionPage() {
     const newTransaction = {
       item: selectedItem,
       quantity: Number(quantitySold), // Ensure quantity is stored as a number
-      date: new Date().toISOString().split("T")[0],
+      date: new Date().toISOString().split("T")[0], // Get the current date in yyyy-mm-dd format
       amount: amountCredited,
     };
 
@@ -65,13 +86,21 @@ function TransactionPage() {
         newTransaction
       );
 
-      // Add the new transaction directly to the state to reflect immediately
-      setTransactions((prevTransactions) => [response.data, ...prevTransactions]);
+      // Add the new transaction to the state and group by month
+      setTransactions((prevTransactions) => {
+        const updatedTransactions = [response.data, ...prevTransactions];
+        groupTransactionsByMonth(updatedTransactions);
+        return updatedTransactions;
+      });
 
       alert("Transaction recorded successfully!");
       setSelectedItem("");
       setQuantitySold("");
       setAmountCredited(0);
+
+      // Fetch and update SKU items
+      const skuResponse = await axios.get("http://localhost:5000/api/sku-items");
+      setSkuItems(skuResponse.data);
     } catch (err) {
       console.error("Error recording transaction:", err);
     }
@@ -120,26 +149,31 @@ function TransactionPage() {
       </form>
 
       <h2>Transaction History</h2>
-      <table className="transactions-table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Date</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((transaction, index) => (
-            <tr key={index}>
-              <td>{transaction.itemName || "N/A"}</td>
-              <td>{transaction.quantity || "N/A"}</td>
-              <td>{transaction.date || "N/A"}</td>
-              <td>₹{transaction.amount || 0}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {Object.keys(groupedTransactions).map((month) => (
+        <div key={month} className="transaction-month">
+          <h3>{month}</h3>
+          <table className="transactions-table">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Date</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groupedTransactions[month].map((transaction, index) => (
+                <tr key={index}>
+                  <td>{transaction.item_name || "N/A"}</td>
+                  <td>{transaction.quantity || "N/A"}</td>
+                  <td>{formatDate(transaction.date)}</td>
+                  <td>₹{transaction.amount || 0}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
     </div>
   );
 }

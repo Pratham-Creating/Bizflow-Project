@@ -7,12 +7,17 @@ function InventoryPage() {
   const [selectedItem, setSelectedItem] = useState("");
   const [updatedQuantity, setUpdatedQuantity] = useState("");
   const [updatedPrice, setUpdatedPrice] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Fetch SKU items from the backend
-  useEffect(() => {
+  const fetchSkuItems = () => {
     axios.get("http://localhost:5000/api/sku-items")
       .then((response) => setSkuItems(response.data))
       .catch((error) => console.error("Error fetching SKU items:", error));
+  };
+
+  useEffect(() => {
+    fetchSkuItems();
   }, []);
 
   // Handle selecting an item from the list
@@ -28,30 +33,35 @@ function InventoryPage() {
   };
 
   // Handle updating the quantity and price of the selected item
-  const handleUpdateItem = (e) => {
+  const handleUpdateItem = async (e) => {
     e.preventDefault();
-    if (!selectedItem || !updatedQuantity || !updatedPrice) {
+    if (!selectedItem || updatedQuantity === "" || updatedPrice === "") {
       alert("Please select an item and specify both quantity and price.");
       return;
     }
 
     const itemToUpdate = skuItems.find((item) => item.name === selectedItem);
     if (itemToUpdate) {
-      // Send update request to backend
-      axios.put(`http://localhost:5000/api/sku-items/${itemToUpdate.id}`, { 
-        quantity: updatedQuantity, 
-        price: updatedPrice 
-      })
-        .then((response) => {
-          // Update the item in the local state after successful update
-          const updatedSkuItems = skuItems.map((item) =>
-            item.id === itemToUpdate.id ? { ...item, quantity: updatedQuantity, price: updatedPrice } : item
-          );
-          setSkuItems(updatedSkuItems);
-          setUpdatedQuantity("");
-          setUpdatedPrice("");
-        })
-        .catch((error) => console.error("Error updating SKU item:", error));
+      setIsLoading(true);
+      try {
+        // Send update request to backend
+        await axios.put(`http://localhost:5000/api/sku-items/${itemToUpdate.id}`, { 
+          quantity: updatedQuantity, 
+          price: updatedPrice 
+        });
+        
+        // Fetch updated data after successful update
+        fetchSkuItems();
+        alert("Item updated successfully!");
+      } catch (error) {
+        console.error("Error updating SKU item:", error);
+        alert("Failed to update the item. Please try again.");
+      } finally {
+        setIsLoading(false);
+        setUpdatedQuantity("");
+        setUpdatedPrice("");
+        setSelectedItem("");
+      }
     }
   };
 
@@ -79,7 +89,7 @@ function InventoryPage() {
         {selectedItem && (
           <>
             <div className="form-group">
-              <label htmlFor="updatedQuantity">Current Quantity: {updatedQuantity}</label>
+              <label htmlFor="updatedQuantity">Update Quantity:</label>
               <input
                 type="number"
                 id="updatedQuantity"
@@ -90,7 +100,7 @@ function InventoryPage() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="updatedPrice">Current Price: ₹{updatedPrice}</label>
+              <label htmlFor="updatedPrice">Update Price (₹):</label>
               <input
                 type="number"
                 id="updatedPrice"
@@ -102,8 +112,8 @@ function InventoryPage() {
           </>
         )}
 
-        <button type="submit" className="update-button">
-          Update Item
+        <button type="submit" className="update-button" disabled={isLoading}>
+          {isLoading ? "Updating..." : "Update Item"}
         </button>
       </form>
 
