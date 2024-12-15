@@ -1,63 +1,109 @@
+import React from "react";
+import googleLogo from "./google.png"; // Import the image
 
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
-// import '../styles/Login.css';
+const LoginPage = () => {
+  const handleGoogleSignIn = () => {
+    console.log("Google Sign-In clicked");
+  };
 
-// function LoginPage() {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const navigate = useNavigate();
+  const handleSignUp = () => {
+    console.log("Redirecting to sign-up page...");
+  };
 
-//   const handleLogin = async (e) => {
-//     e.preventDefault();
+  return (
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        background: "linear-gradient(to right, #74c2e6, #2be3e9)",
+        fontFamily: "'Roboto', sans-serif",
+      }}
+    >
+      {/* Main Container */}
+      <div className="flex w-full max-w-4xl shadow-lg rounded-lg overflow-hidden">
+        {/* Left Section - Login Form */}
+        <div className="w-1/2 bg-[#2b3e50] p-8">
+          <h2 className="text-4xl text-white font-bold mb-6 text-center">
+            Login
+          </h2>
 
-//     try {
-//       const response = await axios.post('http://localhost:3000/api/users/login', {
-//         email,
-//         password,
-//       });
+          {/* Input Fields */}
+          <div className="mb-4">
+            <label className="text-white block mb-2">Username</label>
+            <input
+              type="text"
+              placeholder="Enter Username"
+              className="w-full p-3 rounded-lg border-none bg-white text-black placeholder-gray-400"
+            />
+          </div>
 
-//       if (response.status === 200) {
-//         navigate('/dashboard');
-//       }
-//     } catch (error) {
-//       console.error('Error logging in:', error);
-//       alert('Login failed, please try again.');
-//     }
-//   };
+          <div className="mb-4">
+            <label className="text-white block mb-2">Email</label>
+            <input
+              type="email"
+              placeholder="Enter Email"
+              className="w-full p-3 rounded-lg border-none bg-white text-black placeholder-gray-400"
+            />
+          </div>
 
-//   return (
-//     <section>
-//       <div className="box">
-//         <div className="form">
-//           <h2>Login</h2>
-//           <form onSubmit={handleLogin}>
-//             <div className="inputBx">
-//               <input
-//                 type="email"
-//                 placeholder="Email"
-//                 value={email}
-//                 onChange={(e) => setEmail(e.target.value)}
-//               />
-//             </div>
-//             <div className="inputBx">
-//               <input
-//                 type="password"
-//                 placeholder="Password"
-//                 value={password}
-//                 onChange={(e) => setPassword(e.target.value)}
-//               />
-//             </div>
-//             <div className="inputBx">
-//               <input type="submit" value="Login" />
-//             </div>
-//           </form>
-//           <p>Don't have an account? <a href="/signup">Sign up</a></p>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
+          <div className="mb-4">
+            <label className="text-white block mb-2">Password</label>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              className="w-full p-3 rounded-lg border-none bg-white text-black placeholder-gray-400"
+            />
+          </div>
 
-// export default LoginPage;
+          {/* Login Button */}
+          <button
+            className="w-full bg-[#e74c3c] text-white py-3 rounded-lg hover:bg-[#c0392b] transition"
+            onClick={() => console.log("Login clicked")}
+          >
+            Login
+          </button>
+
+          {/* Divider */}
+          <div className="text-center text-white my-4">OR</div>
+
+          {/* Google Sign-In */}
+          <button
+            className="w-full bg-[#e74c3c] text-white py-3 rounded-lg flex items-center justify-center hover:bg-[#c0392b] transition"
+            onClick={handleGoogleSignIn}
+          >
+            <img
+              src={googleLogo}
+              alt="Google"
+              className="w-5 h-5 mr-2"
+            />
+            Sign in with Google
+          </button>
+        </div>
+
+        {/* Right Section - Welcome */}
+        <div className="w-1/2 bg-[#34495e] p-8 flex flex-col items-center justify-center text-white">
+          <h2 className="text-3xl font-bold mb-4">Welcome Back!</h2>
+          <p className="text-center mb-8">
+            Login to access your account and explore new features.
+          </p>
+
+          <h3 className="text-2xl font-semibold mb-4">Not a Member Yet?</h3>
+          <p className="text-center mb-8 px-6">
+            Sign up today and start achieving your goals! Whether it's improving
+            your skills, staying organized, or reaching your targets, we're here
+            to help.
+          </p>
+
+          {/* Sign Up Button */}
+          <button
+            className="bg-[#e74c3c] py-3 px-6 rounded-lg hover:bg-[#c0392b] transition"
+            onClick={handleSignUp}
+          >
+            Sign Up Now
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;
