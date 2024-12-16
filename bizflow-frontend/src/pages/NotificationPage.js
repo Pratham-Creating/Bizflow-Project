@@ -1,9 +1,9 @@
-// src/pages/DashboardPage.js
+// src/pages/NotificationPage.js
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/Dashboard.css";
+import "../styles/Notification.css";
 
-const DashboardPage = () => {
+const NotificationPage = () => {
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
@@ -47,43 +47,26 @@ const DashboardPage = () => {
 
       {/* Main Content */}
       <main className="main-content">
-        {/* Power BI Section */}
-        <section className="power-bi-section">
-          <iframe
-            title="Power BI Report"
-            src="https://app.powerbi.com/reportEmbed?reportId=1af53736-fdcd-4f47-a380-30852509ca5a&autoAuth=true&embeddedDemo=true"
-            frameBorder="0"
-            allowFullScreen
-            className="power-bi-frame"
-          ></iframe>
-        </section>
-
-        {/* Quick Links Section */}
-        <section className="quick-links">
-          <Link to="/inventory" className="quick-link">
-            <i className="fas fa-box"></i>
-            <h3>Manage Inventory</h3>
-            <p>Track your products and manage stock.</p>
-          </Link>
-          <Link to="/transactions" className="quick-link">
-            <i className="fas fa-exchange-alt"></i>
-            <h3>View Transactions</h3>
-            <p>Analyze and track your business transactions.</p>
-          </Link>
-          <Link to="/data-visual" className="quick-link">
-            <i className="fas fa-chart-line"></i>
-            <h3>Financial Data Visualization</h3>
-            <p>Gain insights for smarter decisions.</p>
-          </Link>
-          <Link to="/notifications" className="quick-link">
-            <i className="fas fa-bell"></i>
-            <h3>Notifications</h3>
-            <p>Stay updated with the latest alerts.</p>
-          </Link>
+        <section className="notification-section">
+          <h1>Notifications</h1>
+          <ul className="notification-list">
+            <li className="notification-item">
+              <p><strong>New Transaction:</strong> Your recent transaction was successful.</p>
+              <span className="notification-time">5 mins ago</span>
+            </li>
+            <li className="notification-item">
+              <p><strong>Stock Alert:</strong> Product A is running low on stock.</p>
+              <span className="notification-time">1 hour ago</span>
+            </li>
+            <li className="notification-item">
+              <p><strong>System Update:</strong> BizFlow has been updated to version 1.1.0.</p>
+              <span className="notification-time">Yesterday</span>
+            </li>
+          </ul>
         </section>
       </main>
     </div>
   );
 };
 
-export default DashboardPage;
+export default NotificationPage;
