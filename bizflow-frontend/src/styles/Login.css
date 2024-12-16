@@ -1,174 +1,222 @@
-/* Global styles */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --text-color: #333333;
+    --light-text: #ecf0f1;
+    --button-bg: #e74c3c;
+    --button-hover-bg: #c0392b;
+    --background-gradient: -webkit-linear-gradient(20deg, #8ea8c3, #2be3e9);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
 }
 
-/* Background section styles */
-section {
+html {
+    font-size: 55%; /* Smaller font base (1rem = 8.8px) */
+}
+
+body {
+    background: var(--background-gradient);
+    color: var(--text-color);
+    font-size: 1.4rem; /* Smaller base font size */
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
-    background: linear-gradient(120deg, #6a11cb, #2575fc); /* Smooth gradient background */
-    overflow: hidden;
+    height: 100vh;
 }
 
-/* Login Box Styling */
-.box {
-    position: relative;
-    padding: 40px;
-    width: 400px;
-    height: auto;
+.container {
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 70%;
+    max-width: 900px;
+    height: 450px;
+}
+
+.login-container, .info-container {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.login-container {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-container h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container label {
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+}
+
+.login-container input {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+    font-size: 1.4rem;
+}
+
+.login-container button {
+    background-color: var(--button-bg);
+    color: var(--light-text);
+    padding: 0.8rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+    background-color: var(--button-hover-bg);
+}
+
+.google-btn {
+    background-color: #fff;
+    color: var(--text-color);
+    padding: 0.8rem;
+    border: 1px solid var(--text-color);
+    border-radius: 5px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.google-btn img {
+    width: 18px;
+    margin-right: 0.8rem;
+}
+
+.divider {
+    text-align: center;
+    margin: 1.5rem 0;
+    font-size: 1.2rem;
+    color: var(--light-text);
+}
+
+.info-container {
+    background-color: var(--secondary-color);
+    color: var(--light-text);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.8); /* Slight opacity to allow background gradient */
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(10px); /* Add blur effect for a smooth look */
-}
-
-/* Header of the login box */
-.box h2 {
-    color: #2c3e50;
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 25px;
     text-align: center;
-    font-size: 26px;
-    text-transform: uppercase;
 }
 
-/* Form container */
-.box .form {
-    width: 100%;
+.info-container h2 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Input fields container */
-.box .form .inputBx {
-    position: relative;
-    width: 100%;
-    margin-bottom: 20px;
+.info-container p {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Input field styling */
-.box .form .inputBx input {
-    width: 100%;
-    outline: none;
-    border: 1px solid #bdc3c7; /* Lighter border color */
-    background: #ecf0f1; /* Light gray background */
-    padding: 12px 15px;
-    padding-left: 35px;
-    border-radius: 8px;
-    color: #34495e;
-    font-size: 16px;
-    font-weight: 400;
-    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+.info-container img {
+    width: 75%;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
 }
 
-/* Input field focus effect */
-.box .form .inputBx input:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+.goal-info h3 {
+    font-size: 2.7rem;
+    margin-bottom: 1rem;
 }
 
-/* Placeholder styling */
-.box .form .inputBx input::placeholder {
-    color: #7f8c8d;
-    font-style: italic;
+.goal-info p {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
 }
 
-/* Submit button styling */
-.box .form .inputBx input[type="submit"] {
-    background: #3498db;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    cursor: pointer;
-    font-size: 16px;
+.goal-info button {
+    background-color: var(--button-bg);
+    color: var(--light-text);
+    padding: 0.8rem 1.5rem;
     border: none;
-    transition: all 0.3s ease;
-}
-
-/* Submit button hover effect */
-.box .form .inputBx input[type="submit"]:hover {
-    background: #2980b9;
-    transform: scale(1.05);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-}
-
-/* Submit button disabled effect */
-.box .form .inputBx input[type="submit"]:disabled {
-    background: rgb(175, 175, 175);
-    color: rgb(116, 116, 116);
-    font-weight: 300;
-    cursor: not-allowed;
-}
-
-/* Text under the form */
-.remeber {
-    color: #34495e;
-    font-weight: 300;
-    margin-bottom: 10px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 1.4rem;
+    transition: background-color 0.3s ease;
 }
 
-/* Additional text styles */
-.box .form p {
-    color: #7f8c8d;
-    font-weight: 300;
-    font-size: 15px;
-    margin-top: 10px;
-    text-align: center;
+.goal-info button:hover {
+    background-color: var(--button-hover-bg);
 }
 
-.box .form a {
-    color: #3498db;
-    text-decoration: none;
-}
-
-/* Hover effect for links */
-.box .form a:hover {
-    color: #2980b9;
-}
-
-/* Responsive design for small screens */
-@media screen and (max-width: 400px) {
-    .box {
-        padding: 25px;
-        width: 350px;
-        height: auto;
+/* Mobile devices (up to 768px) */
+@media (max-width: 768px) {
+    html {
+        font-size: 50%; /* Smaller base font size on mobile */
     }
 
-    .box h2 {
-        font-size: 22px;
+    .container {
+        flex-direction: column; /* Stack containers vertically */
+        width: 90%;
+        height: auto; /* Allow flexible height */
+    }
+
+    .login-container, .info-container {
+        padding: 2rem;
+    }
+
+    .login-container h2, .info-container h2 {
+        font-size: 3rem; /* Reduce heading size */
+    }
+
+    .info-container p {
+        font-size: 2rem; /* Adjust text size */
+    }
+
+    .info-container img {
+        width: 100%; /* Full width image on mobile */
     }
 }
 
-/* Circular user image */
-.user {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    display: block;
-    position: relative;
-    top: -60px;
-    filter: grayscale(0.5);
-    margin: auto;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-    border: 5px solid rgba(255, 255, 255, 0.2);
-}
+/* Extra small devices (up to 480px) */
+@media (max-width: 480px) {
+    html {
+        font-size: 45%; /* Further reduce base font size */
+    }
 
-/* Animation for the user image on hover */
-.user:hover {
-    transform: rotate(360deg);
-    transition: all 1s ease;
+    .login-container h2, .info-container h2 {
+        font-size: 2.5rem; /* Smaller heading on small devices */
+    }
+
+    .login-container input, .login-container button, .goal-info button {
+        font-size: 1.2rem; /* Smaller input and button text */
+    }
+
+    .info-container p {
+        font-size: 1.8rem; /* Further adjust text size */
+    }
+
+    .goal-info h3 {
+        font-size: 2.2rem;
+    }
 }
