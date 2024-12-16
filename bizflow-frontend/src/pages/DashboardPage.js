@@ -1,64 +1,77 @@
-
 // src/pages/DashboardPage.js
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/Dashboard.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "../styles/Dashboard.css";
 
 const DashboardPage = () => {
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
-      <div className="sidebar">
+      <aside className="sidebar">
         <div className="sidebar-header">
-          <h2>BizFlow</h2>
+          <span className="logo">BizFlow</span>
         </div>
-        <nav className="sidebar-nav">
-          <ul>
-            <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/inventory">Inventory</Link></li>
-            <li><Link to="/transactions">Transactions</Link></li>
-            <li><Link to="/data-visual">Data Visualization</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
-          </ul>
-        </nav>
-      </div>
-      
+        <ul className="sidebar-menu">
+          <li>
+            <Link to="/dashboard" className="sidebar-link">
+              <i className="fas fa-home"></i> Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link to="/inventory" className="sidebar-link">
+              <i className="fas fa-box"></i> Inventory
+            </Link>
+          </li>
+          <li>
+            <Link to="/transactions" className="sidebar-link">
+              <i className="fas fa-exchange-alt"></i> Transactions
+            </Link>
+          </li>
+          <li>
+            <Link to="/data-visual" className="sidebar-link">
+              <i className="fas fa-chart-line"></i> Data Visualization
+            </Link>
+          </li>
+          <li>
+            <Link to="/logout" className="sidebar-link">
+              <i className="fas fa-sign-out-alt"></i> Logout
+            </Link>
+          </li>
+        </ul>
+      </aside>
+
       {/* Main Content */}
-      <div className="main-content">
-        <header className="dashboard-header">
-          <div className="welcome">
-            <h1>Welcome to Your Dashboard!</h1>
-            <p>Your business overview and tools at a glance.</p>
-          </div>
+      <main className="main-content">
+        {/* Power BI Section */}
+        <section className="power-bi-section">
+          <iframe
+            title="Power BI Report"
+            src="https://app.powerbi.com/reportEmbed?reportId=1af53736-fdcd-4f47-a380-30852509ca5a&autoAuth=true&embeddedDemo=true"
+            frameBorder="0"
+            allowFullScreen
+            className="power-bi-frame"
+          ></iframe>
+        </section>
 
-          <div className="user-profile">
-            <img src="https://via.placeholder.com/80" alt="User Avatar" />
-            <div className="profile-info">
-              <h3>User Name</h3>
-              <p>Business Name</p>
-            </div>
-          </div>
-        </header>
-
-        {/* Quick Links */}
-        <section className="dashboard-actions">
-          <div className="action-card">
+        {/* Quick Links Section */}
+        <section className="quick-links">
+          <Link to="/inventory" className="quick-link">
+            <i className="fas fa-box"></i>
             <h3>Manage Inventory</h3>
-            <p>Track your products and manage stock easily.</p>
-            <Link to="/inventory" className="btn">Go to Inventory</Link>
-          </div>
-          <div className="action-card">
+            <p>Track your products and manage stock.</p>
+          </Link>
+          <Link to="/transactions" className="quick-link">
+            <i className="fas fa-exchange-alt"></i>
             <h3>View Transactions</h3>
             <p>Analyze and track your business transactions.</p>
-            <Link to="/transactions" className="btn">Go to Transactions</Link>
-          </div>
-          <div className="action-card">
+          </Link>
+          <Link to="/data-visual" className="quick-link">
+            <i className="fas fa-chart-line"></i>
             <h3>Financial Data Visualization</h3>
-            <p>Manage your business more effectively.</p>
-            <Link to="/data-visual" className="btn">Go to Data Visualization</Link>
-          </div>
+            <p>Gain insights for smarter decisions.</p>
+          </Link>
         </section>
-      </div>
+      </main>
     </div>
   );
 };

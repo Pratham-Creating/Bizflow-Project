@@ -71,40 +71,46 @@ function TransactionPage() {
       alert("Please select an item and enter quantity.");
       return;
     }
-
+  
     const newTransaction = {
       item: selectedItem,
       quantity: Number(quantitySold), // Ensure quantity is stored as a number
       date: new Date().toISOString().split("T")[0], // Get the current date in yyyy-mm-dd format
       amount: amountCredited,
     };
-
+  
     try {
       // Send the new transaction to the backend
       const response = await axios.post(
         "http://localhost:5000/api/auth/transactions",
         newTransaction
       );
-
+  
       // Add the new transaction to the state and group by month
       setTransactions((prevTransactions) => {
         const updatedTransactions = [response.data, ...prevTransactions];
         groupTransactionsByMonth(updatedTransactions);
         return updatedTransactions;
       });
-
+  
       alert("Transaction recorded successfully!");
       setSelectedItem("");
       setQuantitySold("");
       setAmountCredited(0);
-
+  
       // Fetch and update SKU items
       const skuResponse = await axios.get("http://localhost:5000/api/sku-items");
       setSkuItems(skuResponse.data);
     } catch (err) {
       console.error("Error recording transaction:", err);
+      if (err.response && err.response.data.error) {
+        alert(err.response.data.error); // Show error message from backend
+      } else {
+        alert("An error occurred. Please try again.");
+      }
     }
   };
+  
 
   if (loading) return <div className="loader">Loading...</div>;
   if (error) return <div className="error-message">{error}</div>;
