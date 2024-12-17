@@ -112,3 +112,36 @@ body {
   font-size: 1rem;
   color: #dcdcdc;
 }
+/* Animated Logout Button */
+.logout-btn {
+  background-color: #4CAF50; /* Green color */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn i {
+  margin-right: 10px; /* Space between icon and text */
+  transition: transform 0.3s ease-in-out;
+}
+
+.logout-btn:hover {
+  background-color: #388E3C; /* Darker green on hover */
+  transform: scale(1.05); /* Slightly increase the button size */
+}
+
+.logout-btn:hover i {
+  transform: rotate(360deg); /* Rotate the icon on hover */
+}
+
+.logout-btn:active {
+  transform: scale(0.95); /* Slight shrink on click */
+}
