@@ -1,9 +1,16 @@
 // src/pages/DashboardPage.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    window.alert("You have successfully logged out.");
+    navigate("/login");
+  };
+
   return (
     <div className="dashboard-container">
       {/* Sidebar */}
@@ -33,14 +40,10 @@ const DashboardPage = () => {
             </Link>
           </li>
           <li>
-            <Link to="/notifications" className="sidebar-link">
-              <i className="fas fa-bell"></i> Notifications
-            </Link>
-          </li>
-          <li>
-            <Link to="/logout" className="sidebar-link">
+            {/* Logout Button */}
+            <button className="logout-btn" onClick={handleLogout}>
               <i className="fas fa-sign-out-alt"></i> Logout
-            </Link>
+            </button>
           </li>
         </ul>
       </aside>
