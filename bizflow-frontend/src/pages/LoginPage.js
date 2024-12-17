@@ -1,13 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import googleLogo from "./google.png"; // Import the image
 
 const LoginPage = () => {
+  const navigate = useNavigate(); // Hook for navigation
+
   const handleGoogleSignIn = () => {
     console.log("Google Sign-In clicked");
   };
 
   const handleSignUp = () => {
     console.log("Redirecting to sign-up page...");
+  };
+
+  const handleLogin = () => {
+    window.alert("Login Successful"); // Display success message
+    navigate("/"); // Navigate to the Home page
   };
 
   return (
@@ -57,7 +65,7 @@ const LoginPage = () => {
           {/* Login Button */}
           <button
             className="w-full bg-[#e74c3c] text-white py-3 rounded-lg hover:bg-[#c0392b] transition"
-            onClick={() => console.log("Login clicked")}
+            onClick={handleLogin} // Call handleLogin function
           >
             Login
           </button>
