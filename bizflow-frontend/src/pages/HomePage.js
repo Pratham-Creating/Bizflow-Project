@@ -24,7 +24,7 @@ const Homepage = () => {
             </li>
           </ul>
           <Link to="./login">
-            <button className="btn-signup">Log In</button>
+            <button className="btn-signup">Log out</button>
           </Link>
         </nav>
 
