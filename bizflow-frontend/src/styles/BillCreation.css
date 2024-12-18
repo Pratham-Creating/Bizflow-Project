@@ -1,0 +1,99 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Bright text */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container */
+.bill-creation-container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.bill-creation-container h1, .bill-creation-container h2 {
+    color: #64ffda; /* Vibrant green text */
+    text-align: center;
+}
+
+/* Labels and Inputs */
+label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #bb86fc; /* Purple for labels */
+}
+
+input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #333;
+    color: #e0e0e0;
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+/* Item List */
+.item-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.item-row input {
+    flex: 1;
+}
+
+.item-row button {
+    flex-shrink: 0;
+    background-color: #ff5252; /* Red remove button */
+    color: #121212;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.item-row button:hover {
+    background-color: #ff7878; /* Lighter red on hover */
+}
+
+/* Buttons */
+button.add-item-button, button.submit-button {
+    background-color: #64ffda; /* Vibrant green buttons */
+    color: #121212; /* Dark text on buttons */
+    border: none;
+    padding: 10px 20px;
+    margin: 5px 0;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button.add-item-button:hover, button.submit-button:hover {
+    background-color: #52e0c5; /* Lighter green on hover */
+}
+
+button:disabled {
+    background-color: #444;
+    color: #888;
+    cursor: not-allowed;
+}

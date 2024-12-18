@@ -40,6 +40,11 @@ const DashboardPage = () => {
             </Link>
           </li>
           <li>
+            <Link to="/billcreation" className="sidebar-link">
+              <i className="fas fa-home"></i> Bill Creation
+            </Link>
+          </li>
+          <li>
             <Link to="/Notifications" className="sidebar-link">
               <i className="fas fa-chart-line"></i> Notifications
             </Link>
@@ -59,7 +64,7 @@ const DashboardPage = () => {
         <section className="power-bi-section">
           <iframe
             title="Power BI Report"
-            src="https://app.powerbi.com/reportEmbed?reportId=1af53736-fdcd-4f47-a380-30852509ca5a&autoAuth=true&embeddedDemo=true"
+            src="https://app.powerbi.com/reportEmbed?reportId=5ad3e009-b4be-46ec-9434-72cbea2a04f8&autoAuth=true&ctid=09bd1956-edda-4e9a-9543-7c7aa2cf4e81"
             frameBorder="0"
             allowFullScreen
             className="power-bi-frame"

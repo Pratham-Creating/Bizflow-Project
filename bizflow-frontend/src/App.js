@@ -10,12 +10,14 @@ import InventoryPage from './pages/inventoryPage';
 import TransactionPage from './pages/transactionPage';
 import DataVisualPage from './pages/dataVisualPage';
 import NotificationPage from './pages/NotificationPage';
+import BillCreation from './pages/BillCreation';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/billcreation" element={<BillCreation />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
