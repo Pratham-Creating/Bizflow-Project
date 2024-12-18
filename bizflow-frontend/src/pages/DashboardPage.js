@@ -40,19 +40,13 @@ const DashboardPage = () => {
             </Link>
           </li>
           <li>
-            <Link to="/notifications" className="sidebar-link">
+            <Link to="/Notifications" className="sidebar-link">
               <i className="fas fa-chart-line"></i> Notifications
             </Link>
           </li>
           <li>
-            {/* Supplier Portal Button */}
-            <Link to="/supplier-portal" className="sidebar-link supplier-btn">
-              <i className="fas fa-truck"></i> Supplier Portal
-            </Link>
-          </li>
-          <li>
             {/* Logout Button */}
-            <button className="sidebar-link logout-btn" onClick={handleLogout}>
+            <button className="logout-btn" onClick={handleLogout}>
               <i className="fas fa-sign-out-alt"></i> Logout
             </button>
           </li>
