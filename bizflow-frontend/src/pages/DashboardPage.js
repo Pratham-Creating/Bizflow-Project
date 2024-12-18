@@ -45,8 +45,13 @@ const DashboardPage = () => {
             </Link>
           </li>
           <li>
-            <Link to="/Notifications" className="sidebar-link">
+            <Link to="/notifications" className="sidebar-link">
               <i className="fas fa-chart-line"></i> Notifications
+            </Link>
+          </li>
+          <li>
+            <Link to="/supplier-portal" className="sidebar-link">
+              <i className="fas fa-truck"></i> Supplier Portal
             </Link>
           </li>
           <li>
@@ -92,6 +97,11 @@ const DashboardPage = () => {
             <i className="fas fa-bell"></i>
             <h3>Notifications</h3>
             <p>Stay updated with the latest alerts.</p>
+          </Link>
+          <Link to="/supplier-portal" className="quick-link">
+            <i className="fas fa-truck"></i>
+            <h3>Supplier Portal</h3>
+            <p>Manage your orders and invoices.</p>
           </Link>
         </section>
       </main>
