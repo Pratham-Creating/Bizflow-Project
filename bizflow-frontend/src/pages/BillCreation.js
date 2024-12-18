@@ -8,6 +8,7 @@ const BillCreation = () => {
     const [total, setTotal] = useState(0);
     const [skuItems, setSkuItems] = useState([]); // Store SKU items
     const [isLoading, setIsLoading] = useState(true); // Loading state for SKU items
+    const [previousBills, setPreviousBills] = useState([]); // Store previously created bills
 
     // Fetch SKU items from the backend
     const fetchSkuItems = async () => {
@@ -20,8 +21,19 @@ const BillCreation = () => {
         }
     };
 
+    // Fetch previously created bills from the backend
+    const fetchPreviousBills = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/bills');
+            setPreviousBills(response.data); // Assuming response.data is an array of bills with URLs
+        } catch (error) {
+            console.error('Error fetching previous bills:', error);
+        }
+    };
+
     useEffect(() => {
         fetchSkuItems();
+        fetchPreviousBills(); // Fetch previously created bills when component loads
     }, []);
 
     const handleAddItem = () => {
@@ -127,6 +139,21 @@ const BillCreation = () => {
             <button className="submit-button" onClick={handleSubmit}>
                 Create Bill
             </button>
+
+            <h2>Previously Created Bills</h2>
+            {previousBills.length === 0 ? (
+                <p>No previous bills found.</p>
+            ) : (
+                <ul>
+                    {previousBills.map((bill) => (
+                        <li key={bill.id}>
+                            <a href={`http://localhost:5000${bill.url}`} target="_blank" rel="noopener noreferrer">
+                                View Bill {bill.id}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };
