@@ -11,6 +11,7 @@ import TransactionPage from './pages/transactionPage';
 import DataVisualPage from './pages/dataVisualPage';
 import NotificationPage from './pages/NotificationPage';
 import BillCreation from './pages/BillCreation';
+import SupplierPortalPage from './pages/SupplierPortalPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/transactions" element={<TransactionPage/>} />
           <Route path="/data-visual" element={<DataVisualPage />} />
           <Route path="/notifications" element={<NotificationPage />} />
+          <Route path="/supplier-portal" element={<SupplierPortalPage />} />
 
         </Routes>
       </div>
