@@ -1,3 +1,4 @@
+/* Existing Styles */
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
@@ -42,16 +43,35 @@ body {
   text-decoration: none;
   color: #ffffff;
   font-size: 1.2rem;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  background: #1e3c72; /* Blue background */
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradient blue */
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin: 10px 0;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .sidebar-link:hover {
-  color: #00d4ff;
+  background: linear-gradient(135deg, #72e478, #00a8cc); /* Glowing blue on hover */
+  color: #ffffff;
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-link i {
   margin-right: 10px;
   font-size: 1.5rem;
+}
+
+/* Supplier Portal Button */
+.supplier-btn {
+  background: #1e3c72; /* Blue background */
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradient blue */
+}
+
+.supplier-btn:hover {
+  background: linear-gradient(135deg, #0c414b, #000000); /* Glowing blue on hover */
 }
 
 /* Main Content */
@@ -81,7 +101,8 @@ body {
 }
 
 .quick-link {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: #1e3c72; /* Blue background */
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradient blue */
   border-radius: 10px;
   padding: 20px;
   text-align: center;
@@ -90,12 +111,13 @@ body {
   color: #ffffff;
   text-decoration: none;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .quick-link:hover {
   transform: translateY(-5px);
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #00d4ff, #00a8cc); /* Glowing blue on hover */
 }
 
 .quick-link i {
@@ -112,13 +134,15 @@ body {
   font-size: 1rem;
   color: #dcdcdc;
 }
+
 /* Animated Logout Button */
 .logout-btn {
-  background-color: #4CAF50; /* Green color */
+  background: #1e3c72; /* Blue background */
+  background: linear-gradient(135deg, #1e3c72, #2a5298); /* Gradient blue */
   color: #ffffff;
   border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
+  border-radius: 10px;
+  padding: 15px 20px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -126,15 +150,11 @@ body {
   text-align: left;
   display: flex;
   align-items: center;
-}
-
-.logout-btn i {
-  margin-right: 10px; /* Space between icon and text */
-  transition: transform 0.3s ease-in-out;
+  margin-top: 20px;
 }
 
 .logout-btn:hover {
-  background-color: #388E3C; /* Darker green on hover */
+  background: linear-gradient(135deg, #00d4ff, #00a8cc); /* Glowing blue on hover */
   transform: scale(1.05); /* Slightly increase the button size */
 }
 
