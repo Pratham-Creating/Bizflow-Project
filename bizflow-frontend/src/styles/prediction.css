@@ -1,0 +1,107 @@
+/* General styling for the container */
+.sales-prediction-container {
+    font-family: 'Arial', sans-serif;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1000px; /* Increased width */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    color: #fff; /* Light text for better visibility on dark background */
+}
+
+/* Section titles */
+.sales-prediction-container h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffcc00; /* Changed to yellow for contrast */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sales-prediction-container h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #ff5722; /* Deep orange */
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* Error message styling */
+.sales-prediction-container p {
+    font-size: 16px;
+    color: #ddd; /* Light gray text for readability */
+    text-align: center;
+}
+
+.sales-prediction-container p.error {
+    color: #ff4d4d;
+    font-weight: bold;
+}
+
+/* Lists for data display */
+.sales-prediction-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sales-prediction-container ul li {
+    font-size: 16px;
+    margin-bottom: 8px;
+    padding: 10px;
+    background-color: #333; /* Darker background for list items */
+    color: #fff; /* Light text for list items */
+    border: 1px solid #444; /* Darker border for contrast */
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Hover effect for list items */
+.sales-prediction-container ul li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Alternate background for better readability */
+.sales-prediction-container ul li:nth-child(odd) {
+    background-color: #444; /* Slightly lighter for alternate items */
+}
+
+/* Section margins */
+.sales-prediction-container section {
+    margin-bottom: 30px;
+    border: 2px solid #444; /* Darker border to separate sections */
+    border-radius: 8px; /* Rounded corners for the sections */
+    padding: 20px;
+    background-color: #222; /* Dark background for sections */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Darker shadow for sections */
+}
+
+/* Section titles inside each section */
+.sales-prediction-container section h3 {
+    margin-bottom: 15px;
+    color: #4caf50; /* Green for section titles */
+    font-size: 20px;
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .sales-prediction-container {
+        padding: 15px;
+    }
+
+    .sales-prediction-container h2 {
+        font-size: 24px;
+    }
+
+    .sales-prediction-container h3 {
+        font-size: 18px;
+    }
+
+    .sales-prediction-container ul li {
+        font-size: 14px;
+    }
+}

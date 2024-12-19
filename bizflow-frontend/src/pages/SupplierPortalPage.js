@@ -16,7 +16,7 @@ const SupplierPortalPage = () => {
     // Simulate a loading process (e.g., data fetching)
     setTimeout(() => {
       setLoading(false); // Stop loading after 3 seconds
-    }, 3000);
+    }, 2000);
   }, []);
 
   return (
@@ -43,8 +43,13 @@ const SupplierPortalPage = () => {
             </Link>
           </li>
           <li>
-            <Link to="/supplier-portal" className="sidebar-link active">
-              <i className="fas fa-truck"></i> Supplier Portal
+            <Link to="/billcreation" className="sidebar-link">
+              <i className="fas fa-exchange-alt"></i> Bill Creation
+            </Link>
+          </li>
+          <li>
+            <Link to="/notifications" className="sidebar-link">
+              <i className="fas fa-exchange-alt"></i> Notifications
             </Link>
           </li>
           <li>

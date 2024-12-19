@@ -59,8 +59,9 @@ app.post('/api/bills', (req, res) => {
   const { customerName, items, total } = req.body;
 
   const doc = new PDFDocument();
-  const fileName = `bill_${Date.now()}.pdf`;
-  const filePath = path.join(__dirname, 'bills', fileName);
+  const timestamp = Date.now(); // Use timestamp or a unique value for the filename
+  const fileName = `bill_${timestamp}.pdf`; // Generate the filename
+  const filePath = path.join(__dirname, 'bills', fileName); // Create the full file path
 
   // Create the "bills" folder if it doesn't exist
   if (!fs.existsSync(path.join(__dirname, 'bills'))) {
@@ -137,11 +138,184 @@ app.post('/api/bills', (req, res) => {
   // Finalize the PDF
   doc.end();
 
-  // Respond with the file URL
-  res.json({ message: 'Bill created successfully', url: `/bills/${fileName}` });
+  // Save the filename and other details in the database
+  const query = "INSERT INTO bills (customer_name, items, total_amount, url) VALUES (?, ?, ?, ?)";
+  db.query(query, [customerName, JSON.stringify(items), total, `/bills/${fileName}`], (err, results) => {
+    if (err) {
+      console.error('Error saving bill to the database:', err);
+      return res.status(500).json({ error: 'Failed to save the bill' });
+    }
+
+    // Respond with the bill URL
+    res.json({ message: 'Bill created successfully', url: `/bills/${fileName}` });
+  });
 });
 
+
+// Fetch previously created bills from the database
+app.get('/api/bills', (req, res) => {
+  const query = "SELECT id, customer_name, total_amount, url, created_at FROM bills ORDER BY created_at DESC";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching bills:', err);
+      return res.status(500).json({ error: 'Failed to fetch bills' });
+    }
+
+    // Format the response to include the correct URL for the bill PDF
+    const bills = results.map(bill => ({
+      id: bill.id,
+      customer_name: bill.customer_name,
+      total_amount: bill.total_amount,
+      created_at: bill.created_at,
+      url: bill.url // Include the URL stored in the database
+    }));
+
+    res.json(bills); // Return the bills with the URLs
+  });
+});
 app.use('/bills', express.static(path.join(__dirname, 'bills')));
+
+
+
+// Backend API for least-selling items
+app.get('/api/least-selling-items', async (req, res) => {
+  try {
+    // SQL query to find the least selling items
+    const query = `
+      SELECT 
+        item_name, 
+        SUM(quantity) AS total_quantity
+      FROM 
+        transactions
+      GROUP BY 
+        item_name
+      ORDER BY 
+        total_quantity ASC
+      LIMIT 5;
+    `;
+
+    console.log('Executing SQL query for least-selling items:', query); // Log the query
+
+    // Execute the query
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error executing least-selling items query:', err); // Log the error
+        return res.status(500).json({ error: 'Error fetching least-selling items' });
+      }
+
+      console.log('Least-selling items result:', results); // Log the results
+      res.json(results); // Send the result as the response
+    });
+  } catch (error) {
+    console.error('Unexpected error fetching least-selling items:', error); // Log unexpected errors
+    res.status(500).json({ error: 'Unexpected error fetching least-selling items' });
+  }
+});
+
+// Backend API for top-selling items
+app.get('/api/top-selling-items', async (req, res) => {
+  try {
+    // SQL query to find the top-selling items
+    const query = `
+      SELECT 
+        item_name, 
+        SUM(quantity) AS total_quantity
+      FROM 
+        transactions
+      GROUP BY 
+        item_name
+      ORDER BY 
+        total_quantity DESC
+      LIMIT 5;
+    `;
+
+    console.log('Executing SQL query for top-selling items:', query); // Log the query
+
+    // Execute the query
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error executing top-selling items query:', err); // Log the error
+        return res.status(500).json({ error: 'Error fetching top-selling items' });
+      }
+
+      console.log('Top-selling items result:', results); // Log the results
+      res.json(results); // Send the result as the response
+    });
+  } catch (error) {
+    console.error('Unexpected error fetching top-selling items:', error); // Log unexpected errors
+    res.status(500).json({ error: 'Unexpected error fetching top-selling items' });
+  }
+});
+
+// Backend API for sales trends
+app.get('/api/sales-trends', async (req, res) => {
+  try {
+    // SQL query to get monthly sales trends
+    const query = `
+      SELECT 
+        MONTH(date) AS month, 
+        SUM(amount) AS total_sales
+      FROM 
+        transactions
+      GROUP BY 
+        MONTH(date)
+      ORDER BY 
+        month ASC;
+    `;
+
+    console.log('Executing SQL query for sales trends:', query); // Log the query
+
+    // Execute the query
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error executing sales trends query:', err); // Log the error
+        return res.status(500).json({ error: 'Error fetching sales trends' });
+      }
+
+      // Map results to ensure numeric values for `total_sales`
+      const processedResults = results.map(row => ({
+        month: row.month,
+        total_sales: Number(row.total_sales), // Convert `total_sales` to a number
+      }));
+
+      console.log('Sales trends result:', processedResults); // Log the processed results
+      res.json(processedResults); // Send the result as the response
+    });
+  } catch (error) {
+    console.error('Unexpected error fetching sales trends:', error); // Log unexpected errors
+    res.status(500).json({ error: 'Unexpected error fetching sales trends' });
+  }
+});
+
+//Backend API for low stock items
+app.get('/api/low-stock-items', (req, res) => {
+  try {
+      // SQL query to fetch items with low stock (quantity < 10)
+      const query = `
+          SELECT name, quantity
+          FROM sku_items
+          WHERE quantity < 10
+          ORDER BY quantity ASC;
+      `;
+
+      console.log('Executing SQL query for low-stock items:', query); // Log the query
+
+      // Execute the query
+      db.query(query, (err, results) => {
+          if (err) {
+              console.error('Error executing low-stock items query:', err); // Log any query errors
+              return res.status(500).json({ error: 'Error fetching low-stock items' });
+          }
+
+          console.log('Low-stock items query result:', results); // Log the results
+          res.status(200).json(results); // Respond with the results
+      });
+  } catch (error) {
+      console.error('Unexpected error fetching low-stock items:', error); // Log unexpected errors
+      res.status(500).json({ error: 'Unexpected error fetching low-stock items' });
+  }
+});
 
 
 module.exports = app;

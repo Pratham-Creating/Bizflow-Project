@@ -24,24 +24,33 @@ const DashboardPage = () => {
               <i className="fas fa-home"></i> Dashboard
             </Link>
           </li>
+  
           <li>
             <Link to="/inventory" className="sidebar-link">
               <i className="fas fa-box"></i> Inventory
             </Link>
           </li>
+  
           <li>
             <Link to="/transactions" className="sidebar-link">
               <i className="fas fa-exchange-alt"></i> Transactions
             </Link>
           </li>
+  
           <li>
             <Link to="/data-visual" className="sidebar-link">
               <i className="fas fa-chart-line"></i> Data Visualization
             </Link>
           </li>
+  
           <li>
             <Link to="/billcreation" className="sidebar-link">
               <i className="fas fa-home"></i> Bill Creation
+            </Link>
+          </li>
+          <li>
+            <Link to="/sales-prediction" className="sidebar-link">
+              <i className="fas fa-home"></i> Sales Prediction
             </Link>
           </li>
           <li>
@@ -49,17 +58,20 @@ const DashboardPage = () => {
               <i className="fas fa-chart-line"></i> Notifications
             </Link>
           </li>
+  
           <li>
             <Link to="/supplier-portal" className="sidebar-link">
               <i className="fas fa-truck"></i> Supplier Portal
             </Link>
           </li>
+  
           <li>
             {/* Logout Button */}
             <button className="logout-btn" onClick={handleLogout}>
               <i className="fas fa-sign-out-alt"></i> Logout
             </button>
           </li>
+  
         </ul>
       </aside>
 

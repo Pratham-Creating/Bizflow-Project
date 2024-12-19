@@ -12,12 +12,14 @@ import DataVisualPage from './pages/dataVisualPage';
 import NotificationPage from './pages/NotificationPage';
 import BillCreation from './pages/BillCreation';
 import SupplierPortalPage from './pages/SupplierPortalPage';
+import SalesPrediction from './pages/Prediction';
 
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/sales-prediction" element={<SalesPrediction />} />
           <Route path="/billcreation" element={<BillCreation />} />
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
