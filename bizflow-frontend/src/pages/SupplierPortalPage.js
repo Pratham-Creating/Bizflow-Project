@@ -3,20 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
 import "../styles/SupplierPortal.css";
 
+// Utility function to format dates to month-year format
+const formatMonthYear = (date) => {
+  const options = { year: 'numeric', month: 'long' };
+  return new Date(date).toLocaleDateString(undefined, options);
+};
+
 const SupplierPortalPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [statuses, setStatuses] = useState({
-    SUP123: "Active",
-    SUP124: "Pending",
-    SUP125: "Active",
-    SUP126: "Inactive",
+    SUP123: { status: "Active", lastOrder: "2024-12-01" },
+    SUP124: { status: "Pending", lastOrder: "2024-11-28" },
+    SUP125: { status: "Active", lastOrder: "2024-12-05" },
+    SUP126: { status: "Inactive", lastOrder: "2024-12-03" },
   });
 
   const handleStatusChange = (supplierId, newStatus) => {
     setStatuses((prevStatuses) => ({
       ...prevStatuses,
-      [supplierId]: newStatus,
+      [supplierId]: {
+        ...prevStatuses[supplierId],
+        status: newStatus,
+      },
     }));
   };
 
@@ -31,6 +40,16 @@ const SupplierPortalPage = () => {
       setLoading(false); // Stop loading after 3 seconds
     }, 3000);
   }, []);
+
+  // Group suppliers by the month of their last order
+  const groupedByMonth = Object.entries(statuses).reduce((groups, [supplierId, data]) => {
+    const monthYear = formatMonthYear(data.lastOrder); // Format date to Month-Year
+    if (!groups[monthYear]) {
+      groups[monthYear] = [];
+    }
+    groups[monthYear].push({ supplierId, ...data });
+    return groups;
+  }, {});
 
   return (
     <div className="dashboard-container">
@@ -82,70 +101,67 @@ const SupplierPortalPage = () => {
         ) : (
           <section className="supplier-section">
             <h3>Supplier List</h3>
-            <div className="supplier-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Supplier ID</th>
-                    <th>Supplier Name</th>
-                    <th>Contact</th>
-                    <th>Last Order</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(statuses).map(([supplierId, status]) => (
-                    <tr key={supplierId}>
-                      <td>{supplierId}</td>
-                      <td>
-                        {
-                          {
-                            SUP123: "ABC Supplies Ltd.",
-                            SUP124: "XYZ Wholesale",
-                            SUP125: "Global Traders",
-                            SUP126: "EcoMart Ltd.",
-                          }[supplierId]
-                        }
-                      </td>
-                      <td>
-                        {
-                          {
-                            SUP123: "+1 234 567 890",
-                            SUP124: "+1 987 654 321",
-                            SUP125: "+1 555 666 777",
-                            SUP126: "+1 222 333 444",
-                          }[supplierId]
-                        }
-                      </td>
-                      <td>
-                        {
-                          {
-                            SUP123: "2024-12-01",
-                            SUP124: "2024-11-28",
-                            SUP125: "2024-12-05",
-                            SUP126: "2024-12-03",
-                          }[supplierId]
-                        }
-                      </td>
-                      <td>
-                        <select
-                          value={status}
-                          onChange={(e) =>
-                            handleStatusChange(supplierId, e.target.value)
-                          }
-                        >
-                          <option value="Delivered">Delivered</option>
-                          <option value="Delivery Pending">
-                            Delivery Pending
-                          </option>
-                          <option value="In Progress">In Progress</option>
-                        </select>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+
+            {Object.keys(groupedByMonth).map((monthYear) => (
+              <div key={monthYear} className="month-group">
+                <h4>{monthYear}</h4>
+                <div className="supplier-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Supplier ID</th>
+                        <th>Supplier Name</th>
+                        <th>Contact</th>
+                        <th>Last Order</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {groupedByMonth[monthYear].map(({ supplierId, status, lastOrder }) => (
+                        <tr key={supplierId}>
+                          <td>{supplierId}</td>
+                          <td>
+                            {
+                              {
+                                SUP123: "ABC Supplies Ltd.",
+                                SUP124: "XYZ Wholesale",
+                                SUP125: "Global Traders",
+                                SUP126: "EcoMart Ltd.",
+                              }[supplierId]
+                            }
+                          </td>
+                          <td>
+                            {
+                              {
+                                SUP123: "+1 234 567 890",
+                                SUP124: "+1 987 654 321",
+                                SUP125: "+1 555 666 777",
+                                SUP126: "+1 222 333 444",
+                              }[supplierId]
+                            }
+                          </td>
+                          <td>{lastOrder}</td>
+                          <td>
+                            <select
+                              value={status}
+                              onChange={(e) =>
+                                handleStatusChange(supplierId, e.target.value)
+                              }
+                            >
+                              <option value="Delivered">Delivered</option>
+                              <option value="Delivery Pending">
+                                Delivery Pending
+                              </option>
+                              <option value="In Progress">In Progress</option>
+                            </select>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
           </section>
         )}
       </main>
