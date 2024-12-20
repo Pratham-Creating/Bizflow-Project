@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/transaction.css";
+import { useNavigate } from "react-router-dom";
 
 function TransactionPage() {
   const [skuItems, setSkuItems] = useState([]);
@@ -9,11 +10,13 @@ function TransactionPage() {
   const [selectedItem, setSelectedItem] = useState("");
   const [quantitySold, setQuantitySold] = useState("");
   const [amountCredited, setAmountCredited] = useState(0);
+  const [paymentOption, setPaymentOption] = useState("Cash");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch SKU items and transactions 
+    // Fetch SKU items and transactions
     const fetchData = async () => {
       try {
         const [skuResponse, transactionsResponse] = await Promise.all([
@@ -36,9 +39,8 @@ function TransactionPage() {
   const formatDate = (date) => {
     const d = new Date(date);
     const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0'); // months are zero-based
+    const month = String(d.getMonth() + 1).padStart(2, '0');
     const year = d.getFullYear();
-
     return `${day}/${month}/${year}`;
   };
 
@@ -65,52 +67,64 @@ function TransactionPage() {
     if (item) setAmountCredited(item.price * e.target.value);
   };
 
+  const handlePaymentOptionChange = (e) => {
+    setPaymentOption(e.target.value);
+  };
+
   const handleTransactionSubmit = async (e) => {
     e.preventDefault();
+
     if (!selectedItem || !quantitySold) {
       alert("Please select an item and enter quantity.");
       return;
     }
-  
+
+    if (paymentOption === "UPI") {
+      // Redirect to UPI payment page
+      navigate("/upi-payment", {
+        state: {
+          amount: amountCredited,
+          transactionDetails: {
+            item: selectedItem,
+            quantity: Number(quantitySold),
+            date: new Date().toISOString().split("T")[0],
+          },
+        },
+      });
+      return;
+    }
+
+    // For Cash transactions, process normally
     const newTransaction = {
       item: selectedItem,
-      quantity: Number(quantitySold), // Ensure quantity is stored as a number
-      date: new Date().toISOString().split("T")[0], // Get the current date in yyyy-mm-dd format
+      quantity: Number(quantitySold),
+      date: new Date().toISOString().split("T")[0],
       amount: amountCredited,
     };
-  
+
     try {
-      // Send the new transaction to the backend
       const response = await axios.post(
         "http://localhost:5000/api/auth/transactions",
         newTransaction
       );
-  
-      // Add the new transaction to the state and group by month
       setTransactions((prevTransactions) => {
         const updatedTransactions = [response.data, ...prevTransactions];
         groupTransactionsByMonth(updatedTransactions);
         return updatedTransactions;
       });
-  
       alert("Transaction recorded successfully!");
       setSelectedItem("");
       setQuantitySold("");
       setAmountCredited(0);
-  
-      // Fetch and update SKU items
+
+      // Update SKU items
       const skuResponse = await axios.get("http://localhost:5000/api/sku-items");
       setSkuItems(skuResponse.data);
     } catch (err) {
       console.error("Error recording transaction:", err);
-      if (err.response && err.response.data.error) {
-        alert(err.response.data.error); // Show error message from backend
-      } else {
-        alert("An error occurred. Please try again.");
-      }
+      alert("An error occurred. Please try again.");
     }
   };
-  
 
   if (loading) return <div className="loader">Loading...</div>;
   if (error) return <div className="error-message">{error}</div>;
@@ -147,6 +161,14 @@ function TransactionPage() {
 
         <div className="form-group">
           <label>Amount Credited: <strong>₹{amountCredited}</strong></label>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="paymentOption">Payment Method:</label>
+          <select id="paymentOption" value={paymentOption} onChange={handlePaymentOptionChange}>
+            <option value="Cash">Cash</option>
+            <option value="UPI">UPI</option>
+          </select>
         </div>
 
         <button type="submit" className="submit-button">

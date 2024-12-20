@@ -2,6 +2,14 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
+import dashboardpng from "../assets/dashboard.png";
+import inventorypng from "../assets/inventory.png";
+import transactionpng from "../assets/card-payment.png";
+import datapng from "../assets/analysis.png";
+import billpng from "../assets/bill.png";
+import salespng from "../assets/business-intelligence.png";
+import notificationpng from "../assets/notification.png";
+import supplierpng from "../assets/supplier.png";
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -21,47 +29,47 @@ const DashboardPage = () => {
         <ul className="sidebar-menu">
           <li>
             <Link to="/dashboard" className="sidebar-link">
-              <i className="fas fa-home"></i> Dashboard
+              <i className="fas fa-home"></i> Dashboard <img src={dashboardpng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
   
           <li>
             <Link to="/inventory" className="sidebar-link">
-              <i className="fas fa-box"></i> Inventory
+              <i className="fas fa-box"></i> Inventory <img src={inventorypng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
   
           <li>
             <Link to="/transactions" className="sidebar-link">
-              <i className="fas fa-exchange-alt"></i> Transactions
+              <i className="fas fa-exchange-alt"></i> Transactions <img src={transactionpng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
   
           <li>
             <Link to="/data-visual" className="sidebar-link">
-              <i className="fas fa-chart-line"></i> Data Visualization
+              <i className="fas fa-chart-line"></i> Data Visualization<img src={datapng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
   
           <li>
             <Link to="/billcreation" className="sidebar-link">
-              <i className="fas fa-home"></i> Bill Creation
+              <i className="fas fa-home"></i> Bill Creation<img src={billpng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
           <li>
             <Link to="/sales-prediction" className="sidebar-link">
-              <i className="fas fa-home"></i> Sales Prediction
+              <i className="fas fa-home"></i> Sales Prediction<img src={salespng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
           <li>
             <Link to="/notifications" className="sidebar-link">
-              <i className="fas fa-chart-line"></i> Notifications
+              <i className="fas fa-chart-line"></i> Notifications<img src={notificationpng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
   
           <li>
             <Link to="/supplier-portal" className="sidebar-link">
-              <i className="fas fa-truck"></i> Supplier Portal
+              <i className="fas fa-truck"></i> Supplier Portal<img src={supplierpng} alt="ICON" className="dashboard-img" />
             </Link>
           </li>
   

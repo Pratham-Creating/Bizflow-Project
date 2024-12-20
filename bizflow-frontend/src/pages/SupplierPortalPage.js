@@ -3,9 +3,35 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Dashboard.css";
 import "../styles/SupplierPortal.css";
 
+// Utility function to format dates to month-year format
+const formatMonthYear = (date) => {
+  const options = { year: 'numeric', month: 'long' };
+  return new Date(date).toLocaleDateString(undefined, options);
+};
+
 const SupplierPortalPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [statuses, setStatuses] = useState({
+    SUP129: {lastOrder: "2024-12-01" },
+    SUP128: {lastOrder: "2024-11-28" },
+    SUP127: {lastOrder: "2024-12-05" },
+    SUP126: {lastOrder: "2024-12-03" },
+    SUP125: {lastOrder: "2024-11-11" },
+    SUP124: {lastOrder: "2024-11-12" },
+    SUP123: {lastOrder: "2024-10-10" },
+    SUP122: {lastOrder: "2024-10-05" }
+  });
+
+  const handleStatusChange = (supplierId, newStatus) => {
+    setStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [supplierId]: {
+        ...prevStatuses[supplierId],
+        status: newStatus,
+      },
+    }));
+  };
 
   const handleLogout = () => {
     window.alert("You have successfully logged out.");
@@ -16,8 +42,18 @@ const SupplierPortalPage = () => {
     // Simulate a loading process (e.g., data fetching)
     setTimeout(() => {
       setLoading(false); // Stop loading after 3 seconds
-    }, 2000);
+    }, 3000);
   }, []);
+
+  // Group suppliers by the month of their last order
+  const groupedByMonth = Object.entries(statuses).reduce((groups, [supplierId, data]) => {
+    const monthYear = formatMonthYear(data.lastOrder); // Format date to Month-Year
+    if (!groups[monthYear]) {
+      groups[monthYear] = [];
+    }
+    groups[monthYear].push({ supplierId, ...data });
+    return groups;
+  }, {});
 
   return (
     <div className="dashboard-container">
@@ -43,13 +79,8 @@ const SupplierPortalPage = () => {
             </Link>
           </li>
           <li>
-            <Link to="/billcreation" className="sidebar-link">
-              <i className="fas fa-exchange-alt"></i> Bill Creation
-            </Link>
-          </li>
-          <li>
-            <Link to="/notifications" className="sidebar-link">
-              <i className="fas fa-exchange-alt"></i> Notifications
+            <Link to="/supplier-portal" className="sidebar-link active">
+              <i className="fas fa-truck"></i> Supplier Portal
             </Link>
           </li>
           <li>
@@ -74,49 +105,75 @@ const SupplierPortalPage = () => {
         ) : (
           <section className="supplier-section">
             <h3>Supplier List</h3>
-            <div className="supplier-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Supplier ID</th>
-                    <th>Supplier Name</th>
-                    <th>Contact</th>
-                    <th>Last Order</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>SUP123</td>
-                    <td>ABC Supplies Ltd.</td>
-                    <td>+1 234 567 890</td>
-                    <td>2024-12-01</td>
-                    <td>Active</td>
-                  </tr>
-                  <tr>
-                    <td>SUP124</td>
-                    <td>XYZ Wholesale</td>
-                    <td>+1 987 654 321</td>
-                    <td>2024-11-28</td>
-                    <td>Pending</td>
-                  </tr>
-                  <tr>
-                    <td>SUP125</td>
-                    <td>Global Traders</td>
-                    <td>+1 555 666 777</td>
-                    <td>2024-12-05</td>
-                    <td>Active</td>
-                  </tr>
-                  <tr>
-                    <td>SUP126</td>
-                    <td>EcoMart Ltd.</td>
-                    <td>+1 222 333 444</td>
-                    <td>2024-12-03</td>
-                    <td>Inactive</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
+            {Object.keys(groupedByMonth).map((monthYear) => (
+              <div key={monthYear} className="month-group">
+                <h4>{monthYear}</h4>
+                <div className="supplier-table">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Supplier ID</th>
+                        <th>Supplier Name</th>
+                        <th>Contact</th>
+                        <th>Last Order</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {groupedByMonth[monthYear].map(({ supplierId, status, lastOrder }) => (
+                        <tr key={supplierId}>
+                          <td>{supplierId}</td>
+                          <td>
+                            {
+                              {
+                                SUP129: "ABC Supplies Ltd.",
+                                SUP128: "XYZ Wholesale",
+                                SUP127: "Global Traders",
+                                SUP126: "EcoMart Ltd.",
+                                SUP125: "ABC Supplies Ltd.",
+                                SUP124: "Global Traders",
+                                SUP123: "EcoMart Ltd.",
+                                SUP122: "ABC Supplies Ltd.",
+                              }[supplierId]
+                            }
+                          </td>
+                          <td>
+                            {
+                              {
+                                SUP129: "+1 234 567 890",
+                                SUP128: "+1 987 654 321",
+                                SUP127: "+1 555 666 777",
+                                SUP126: "+1 222 333 444",
+                                SUP125: "+1 234 567 890",
+                                SUP124: "+1 555 666 777",
+                                SUP123: "+1 222 333 444",
+                                SUP122: "+1 234 567 890"
+                              }[supplierId]
+                            }
+                          </td>
+                          <td>{lastOrder}</td>
+                          <td>
+                            <select
+                              value={status}
+                              onChange={(e) =>
+                                handleStatusChange(supplierId, e.target.value)
+                              }
+                            >
+                              <option value="Delivered">Delivered</option>
+                              <option value="Delivery Pending">
+                                Delivery Pending
+                              </option>
+                              <option value="In Progress">In Progress</option>
+                            </select>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))}
           </section>
         )}
       </main>

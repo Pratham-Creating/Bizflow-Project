@@ -1,8 +1,9 @@
 body {
   margin: 0;
   font-family: 'Arial', sans-serif;
-  background-color: #1a1a2e;
+  background: linear-gradient(135deg, #1a1a2e, #0f3460);
   color: #ffffff;
+  overflow-x: hidden;
 }
 
 .dashboard-container {
@@ -13,18 +14,31 @@ body {
 /* Sidebar */
 .sidebar {
   width: 250px;
-  background-color: #16213e;
+  background: linear-gradient(135deg, #16213e, #0f3460);
   display: flex;
   flex-direction: column;
   padding: 20px;
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
 }
 
 .sidebar-header {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 30px;
   color: #00d4ff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.sidebar-header::after {
+  content: '';
+  display: block;
+  width: 80%;
+  height: 2px;
+  background: #00d4ff;
+  margin: 10px auto 0;
 }
 
 .sidebar-menu {
@@ -42,35 +56,71 @@ body {
   text-decoration: none;
   color: #ffffff;
   font-size: 1.2rem;
-  transition: color 0.3s ease;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background 0.3s ease, color 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-link img {
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out;
 }
 
 .sidebar-link:hover {
+  background: rgba(0, 212, 255, 0.3);
   color: #00d4ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-link:hover img {
+  transform: scale(1.2);
 }
 
 .sidebar-link i {
   margin-right: 10px;
   font-size: 1.5rem;
+  color: #00d4ff;
 }
 
 /* Main Content */
 .main-content {
   flex: 1;
   padding: 20px;
+  background: linear-gradient(135deg, #1f4068, #16213e);
+  border-radius: 20px 0 0 20px;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 /* Power BI Section */
 .power-bi-section {
-  margin-bottom: 30px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  padding: 20px;
 }
 
 .power-bi-frame {
   width: 100%;
   height: calc(100vh - 120px);
-  border: none;
+  border: 3px solid #00d4ff;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 /* Quick Links Section */
@@ -91,6 +141,8 @@ body {
   text-decoration: none;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .quick-link:hover {
@@ -103,18 +155,48 @@ body {
   margin-bottom: 10px;
 }
 
+.quick-link img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.quick-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(0);
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.quick-link:hover::before {
+  transform: scale(1);
+}
+
 .quick-link h3 {
   font-size: 1.5rem;
   margin: 10px 0;
+  z-index: 2;
+  position: relative;
 }
 
 .quick-link p {
   font-size: 1rem;
   color: #dcdcdc;
+  z-index: 2;
+  position: relative;
 }
+
 /* Animated Logout Button */
 .logout-btn {
-  background-color: #4CAF50; /* Green color */
+  background: linear-gradient(135deg, #4CAF50, #388E3C);
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -126,22 +208,24 @@ body {
   text-align: left;
   display: flex;
   align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .logout-btn i {
-  margin-right: 10px; /* Space between icon and text */
+  margin-right: 10px;
   transition: transform 0.3s ease-in-out;
 }
 
 .logout-btn:hover {
-  background-color: #388E3C; /* Darker green on hover */
-  transform: scale(1.05); /* Slightly increase the button size */
+  background: linear-gradient(135deg, #388E3C, #4CAF50);
+  transform: scale(1.05);
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
 }
 
 .logout-btn:hover i {
-  transform: rotate(360deg); /* Rotate the icon on hover */
+  transform: rotate(360deg);
 }
 
 .logout-btn:active {
-  transform: scale(0.95); /* Slight shrink on click */
+  transform: scale(0.95);
 }

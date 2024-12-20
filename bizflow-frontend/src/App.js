@@ -13,12 +13,13 @@ import NotificationPage from './pages/NotificationPage';
 import BillCreation from './pages/BillCreation';
 import SupplierPortalPage from './pages/SupplierPortalPage';
 import SalesPrediction from './pages/Prediction';
-
+import UPIPaymentPage from './pages/UpiPayment';
 function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
+
           <Route path="/sales-prediction" element={<SalesPrediction />} />
           <Route path="/billcreation" element={<BillCreation />} />
           <Route path="/" element={<HomePage />} />
@@ -29,7 +30,7 @@ function App() {
           <Route path="/data-visual" element={<DataVisualPage />} />
           <Route path="/notifications" element={<NotificationPage />} />
           <Route path="/supplier-portal" element={<SupplierPortalPage />} />
-
+          <Route path="/upi-payment" element={<UPIPaymentPage />} />
         </Routes>
       </div>
     </Router>
